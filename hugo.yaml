@@ -1,0 +1,40 @@
+baseURL: https://dywicki.pl
+languageCode: en-US
+title: Middleware Warez
+theme: PaperMod
+taxonomies:
+  category: category
+  tag: tag
+params:
+  description: Do more, pay less | Rób więcej, płacąc mniej
+  defaultTheme: auto
+  disableThemeToggle: true
+  showShareButtons: true
+  showReadingTime: true
+  showToc: false
+  showBreadCrumbs: true
+  showCodeCopyButtons: true
+  comments: true
+  hideFooter: true
+  assets:
+    favicon: /favicon.ico
+    disableHLJS: true
+markup:
+  highlight:
+    codeFences: false
+    guessSyntax: false
+    style: monokai
+  goldmark:
+    renderer:
+      unsafe: true
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON
+outputFormats:
+  RSS:
+    mediaType: application/rss+xml
+    baseName: feed
+menu:
+  main: []
