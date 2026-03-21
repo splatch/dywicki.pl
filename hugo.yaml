@@ -20,10 +20,6 @@ params:
     favicon: /favicon.ico
     disableHLJS: true
 markup:
-  highlight:
-    codeFences: false
-    guessSyntax: false
-    style: monokai
   goldmark:
     renderer:
       unsafe: true
