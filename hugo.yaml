@@ -5,20 +5,23 @@ theme: PaperMod
 taxonomies:
   category: category
   tag: tag
+
 params:
   description: Do more, pay less | Rób więcej, płacąc mniej
   defaultTheme: auto
-  disableThemeToggle: true
+  disableThemeToggle: false
   showShareButtons: true
   showReadingTime: true
   showToc: false
   showBreadCrumbs: true
   showCodeCopyButtons: true
+  ShowPostNavLinks: true
   comments: true
   hideFooter: true
   assets:
     favicon: /favicon.ico
     disableHLJS: true
+
 markup:
   goldmark:
     renderer:
@@ -32,5 +35,19 @@ outputFormats:
   RSS:
     mediaType: application/rss+xml
     baseName: feed
+
 menu:
-  main: []
+  main:
+    - name: Search
+      url: search/
+      weight: 10
+    - name: Categories
+      url: category/
+      weight: 5
+    - name: Tags
+      url: tag/
+      weight: 5
+    - name: About me
+      url: /about-me
+    - name: O mnie
+      url: /o-mnie
