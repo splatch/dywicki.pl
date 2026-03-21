@@ -74,4 +74,4 @@ From a power user perspective, meaning someone who uses computer for work - anno
 
 A story of migration from OSX to Linux will be part of separate post.
 
-\[1\] Once, while working at Red Hat, I meet colleague who was working for quality assurance department and he did work on ipad and didn't have any laptop. It was possible for him to do such cause all systems he needed were available via ssh terminal or web page.
+[1] Once, while working at Red Hat, I meet colleague who was working for quality assurance department and he did work on ipad and didn't have any laptop. It was possible for him to do such cause all systems he needed were available via ssh terminal or web page.

@@ -37,7 +37,7 @@ As usual log file can be used by different people for diagnostic - eg. database 
 Many libraries use a single log category or only few to do logging. That's completly wrong idea. Let take a look for Atomikos. By default all log are produced by 'atomikos' category. Even if you are interested in connection pooling tracing you are forced to see almost all events happened from begining of transaction to it's end. In case of Apache Camel and middleware - consider:
 
 - Usage of own categories, different than a framework which will reflect your mediation process logic, not technical details. Even if you are genius programmer you can be confused by log entries not connected with any process stage.
-- Be sure that all events produced by your processors, classes and context or route go to same log hierarchy - eg. org.code\_house.esb.sap.finance, instead of "processor", "org.myjavapackage" and so on. Be consistent on that.
+- Be sure that all events produced by your processors, classes and context or route go to same log hierarchy - eg. org.code_house.esb.sap.finance, instead of "processor", "org.myjavapackage" and so on. Be consistent on that.
 - Do not trust a thread name and do not use it as the category. Name of it can be changed by camel core change or component update.
 
 Camel components have a proper packages and you can easily get rid of statements unnecessary for you.
@@ -81,36 +81,36 @@ MDC is an bridge from your application to logging framework. You can set some ap
 - transactionKey
 
 Each variable from this list can be used in combination with log format or appender. For example if you have all variables set correctly you can use this format:
-\[plain\]
-log4j.appender.out.layout.ConversionPattern=%d{ABSOLUTE} \| %-5.5p \| %X{camelContextId} %X{bundle.version} \| %X{routeId} %X{exchangeId} \| %m%n
-\[/plain\]
+```
+log4j.appender.out.layout.ConversionPattern=%d{ABSOLUTE} | %-5.5p | %X{camelContextId} %X{bundle.version} | %X{routeId} %X{exchangeId} | %m%n
+```
 And you will get following line produced:
-\[plain\]23:56:12,158 \| INFO \| database-batch 2.8.0.fuse-01-06 \| jms-inbound-hr \| ID-Code-House-local-60526-1330335502920-25-33 \| Received message\[/plain\]
+```23:56:12,158 | INFO | database-batch 2.8.0.fuse-01-06 | jms-inbound-hr | ID-Code-House-local-60526-1330335502920-25-33 | Received message```
 
 For me it's still do not look like something easy to read, that's why I introduce appender:
-\[plain\]
+```
 log4j.appender.integrationProcess=org.apache.log4j.sift.MDCSiftingAppender
 log4j.appender.integrationProcess.key=camelContextId
 log4j.appender.integrationProcess.default=unknown
 log4j.appender.integrationProcess.appender=org.apache.log4j.RollingFileAppender
 log4j.appender.integrationProcess.appender.layout=org.apache.log4j.PatternLayout
-log4j.appender.integrationProcess.appender.layout.ConversionPattern=%d{ABSOLUTE} \| %-5.5p \| %X{routeId} %X{bundle.version} \| %X{exchangeId} \| %m%n
+log4j.appender.integrationProcess.appender.layout.ConversionPattern=%d{ABSOLUTE} | %-5.5p | %X{routeId} %X{bundle.version} | %X{exchangeId} | %m%n
 log4j.appender.integrationProcess.appender.file=${karaf.data}/log/mediation-$\\\{camelContextId\\\}.log
 log4j.appender.integrationProcess.appender.append=true
 log4j.appender.integrationProcess.appender.maxFileSize=1MB
 log4j.appender.integrationProcess.appender.maxBackupIndex=10
 
-log4j.category.com.mycompnany.camel\_toys.hr=INFO, integrationProcess
-\[/plain\]
+log4j.category.com.mycompnany.camel_toys.hr=INFO, integrationProcess
+```
 By default, when the camelContextId is not set log entries will be appended to file data/log/mediation-unknown.log. But for these which have a context ID it will look much better (file mediation-database-batch.log):
-\[plain\]
-00:38:42,386 \| INFO \| jms-inbound-hr 2.8.0.fuse-01-06 \| ID-Code-House-local-51055-1330383822002-4-67 \| Received message with business key XYZ.
-00:38:43,387 \| INFO \| jms-inbound-hr 2.8.0.fuse-01-06 \| ID-Code-House-local-51055-1330383822002-4-67 \| Saving message in database
-00:38:44,388 \| INFO \| jms-inbound-hr 2.8.0.fuse-01-06 \| ID-Code-House-local-51055-1330383822002-4-67 \| Processing of message with business key XYZ complete.
-00:38:44,389 \| INFO \| jms-inbound-hr 2.8.0.fuse-01-06 \| ID-Code-House-local-51055-1330383822002-4-68 \| Received message with business key ZYX.
-00:38:45,390 \| INFO \| jms-inbound-hr 2.8.0.fuse-01-06 \| ID-Code-House-local-51055-1330383822002-4-68 \| Saving message in database
-00:38:45,391 \| ERROR \| jms-inbound-hr 2.8.0.fuse-01-06 \| ID-Code-House-local-51055-1330383822002-4-68 \| Processing of message with business key ZYX failed.
-\[/plain\]
+```
+00:38:42,386 | INFO | jms-inbound-hr 2.8.0.fuse-01-06 | ID-Code-House-local-51055-1330383822002-4-67 | Received message with business key XYZ.
+00:38:43,387 | INFO | jms-inbound-hr 2.8.0.fuse-01-06 | ID-Code-House-local-51055-1330383822002-4-67 | Saving message in database
+00:38:44,388 | INFO | jms-inbound-hr 2.8.0.fuse-01-06 | ID-Code-House-local-51055-1330383822002-4-67 | Processing of message with business key XYZ complete.
+00:38:44,389 | INFO | jms-inbound-hr 2.8.0.fuse-01-06 | ID-Code-House-local-51055-1330383822002-4-68 | Received message with business key ZYX.
+00:38:45,390 | INFO | jms-inbound-hr 2.8.0.fuse-01-06 | ID-Code-House-local-51055-1330383822002-4-68 | Saving message in database
+00:38:45,391 | ERROR | jms-inbound-hr 2.8.0.fuse-01-06 | ID-Code-House-local-51055-1330383822002-4-68 | Processing of message with business key ZYX failed.
+```
 As you see these log entries contains only a process specific informations and they are not influenced by technical details. A category is skipped because it is not relevant in this context (it still for developer logging but not here). Also you don't have to extract a business key. You might use a breadcrumbId header or correlationId property.
 Before you will start using MDC be aware that the property names might be changed because issue [CAMEL-5047 Clean up MDC property names](https://issues.apache.org/jira/browse/CAMEL-5047). This configuration was tested with Camel up to 2.9 release. The bundle.version property is set by pax-logging, not Camel and I treat it as a mediation process version. Log4j sift appender is a wrapper so it will work also with syslog or an database appender.
 
@@ -118,60 +118,61 @@ Before you will start using MDC be aware that the property names might be change
 
 Embedded processors are something common in java DSL. If you use them your category will contain a dollar sign (my.company.RouteBuilderExt$1). Then you should not implement too complex logic in it. If you need do something more than glue strings or set header and you wish to log that - then create a separate class and remember about log category hierarchy and do not use a RouteBuilder log category. Processor logic is deeper than the route builder's and you do some specific task. Separate it. Keep same approach for AggreagatorStrategy and org.apache.camel.spi extensions.
 
-\[java\]
-package com.mycompnany.camel\_toys.hr;
+```java
+package com.mycompnany.camel_toys.hr;
 public class Route extends RouteBuilder {
 
- Log log = LogFactory.getLog(Route.class);
+    Log log = LogFactory.getLog(Route.class);
 
- @Override
- public void configure() throws Exception {
- from("")
- .onException(Exception.class)
- .process(new Processor() {
- @Override
- public void process(Exchange exchange) throws Exception {
- org.apache.camel.Message out = exchange.getOut();
- out.setHeader(org.apache.cxf.message.Message.RESPONSE\_CODE, new Integer(500));
- log.error("Unexpected exception", exchange.getException());
- }
- }
- })
- .end()
- .to("")
+    @Override
+    public void configure() throws Exception {
+        from("")
+            .onException(Exception.class)
+            .process(new Processor() {
+                @Override
+                public void process(Exchange exchange) throws Exception {
+                    org.apache.camel.Message out = exchange.getOut();
+                    out.setHeader(org.apache.cxf.message.Message.RESPONSE_CODE, new Integer(500));
+                    log.error("Unexpected exception", exchange.getException());
+                }
+            }
+        })
+        .end()
+        .to("")
  }
 }
-\[/java\]
+```
 It's better to have:
-\[java\]
-package com.mycompnany.camel\_toys.hr; // or .processor if we have few or logic is complex
+```java
+package com.mycompnany.camel_toys.hr; // or .processor if we have few or logic is complex
 public class ExceptionProcessor implements Processor {
- // slf4j!
- private Log log = LoggerFactory.getLogger(ExceptionProcessor.class);
- @Override
- public void process(Exchange exchange) throws Exception {
- org.apache.camel.Message out = exchange.getOut();
- out.setHeader(org.apache.cxf.message.Message.RESPONSE\_CODE, new Integer(500));
- log.error("Unexpected exception", exchange.getException());
- }
+    // slf4j!
+    private Log log = LoggerFactory.getLogger(ExceptionProcessor.class);
+
+    @Override
+    public void process(Exchange exchange) throws Exception {
+        org.apache.camel.Message out = exchange.getOut();
+        out.setHeader(org.apache.cxf.message.Message.RESPONSE_CODE, new Integer(500));
+        log.error("Unexpected exception", exchange.getException());
+    }
 }
-\[/java\]
+```
 
 ### Usage of camel-log component
 
 Most of use this component in more or less proper way. For example:
-\[java\]
+```java
 onException(Exception.class)
- .log("Unexpected exception ${exception}")
+    .log("Unexpected exception ${exception}")
 .end()
-\[/java\]
+```
 By default your logging category will be set to route id (eg route4, route5 etc) which will obviously not help in detecting the issues. Also log level is not present so it's set by default to INFO. A proper usage is:
-\[java\]
+```java
 onException(Exception.class)
- // see, I have here a same category as route builder because it's on same level
- .log(LoggingLevel.ERROR, "com.mycompnany.camel\_toys.hr", "Unexpected exception ${exception}")
+    // see, I have here a same category as route builder because it's on same level
+    .log(LoggingLevel.ERROR, "com.mycompnany.camel_toys.hr", "Unexpected exception ${exception}")
 .end()
-\[/java\]
+```
 
 ## Quick summary
 

@@ -24,7 +24,7 @@ Gohugo supports alternative output formats of your webpage. It might be a sitema
 
 Because I wanted my format to result in "nginx.conf" file generation I had to declare not only output format but also media type.
 
-```
+```yaml
 mediaTypes:
   "text/nginx-conf":
     suffixes: "conf"
@@ -40,7 +40,7 @@ outputFormats:
 
 This means that our template will be called `<section>.nginx.conf`. Since we need only one configuration snippet its necessary only at `home` level:
 
-```
+```yaml
 outputs:
   home:
     - html
@@ -100,7 +100,7 @@ One additional thing which I wished to test was redirects which do not expose ta
 
 I started from basic data file called `data/redirects.yaml`:
 
-```
+```yaml
 redirects:
   - title: "Connectorio Bindings Manual"
     uri: "/cn-bind-manual"

@@ -60,23 +60,23 @@ These files are unecessary at this moment in our setup.
 
 Becase activemq-admin script creates dummy broker configuration we have to modify it a bit. **Remember to put elements in XML file with alphabetic order. Since ActiveMQ 5.4 release all elements are ordered.**. First of all we going to modify destinationPolicy element:
 ```xml
- <destinationPolicy>
- <policyMap>
- <policyEntries>
- <policyEntry queue=">" optimizedDispatch="true" lazyDispatch="false" producerFlowControl="false" memoryLimit="12 mb" />
- <policyEntry queue="MOM.Client.>" advisoryForDelivery="true" advisoryForConsumed="true" />
- </policyEntries>
- </policyMap>
- </destinationPolicy>
+<destinationPolicy>
+    <policyMap>
+        <policyEntries>
+            <policyEntry queue=">" optimizedDispatch="true" lazyDispatch="false" producerFlowControl="false" memoryLimit="12 mb" />
+            <policyEntry queue="MOM.Client.>" advisoryForDelivery="true" advisoryForConsumed="true" />
+        </policyEntries>
+    </policyMap>
+</destinationPolicy>
 ```
 First policyEntry element disables producerFlowControl. In other words ActiveMQ will accept all messages sent by producer, even when the memory limit was exceeded. Messages that are not able to be put in memory will be persisted in store. By default ActiveMQ have producerFlowControl set to true, and broker will notify producer to wait untill there will be place in memory, eg. messages from queue will be consumed. Second entry turn on advisory messages for message delivery and consumption for MOM.Client.\* queues. These advisory messages are sent when message was received from producer and was succesfully processed by consumer. ActiveMQ offers number of [advisory topics and messages](http://activemq.apache.org/advisory-message.html). Some of them are disabled, some other are enabled by default.
 
 Second change in configuration file is predefined destinations.
 ```xml
- <destinations>
- <queue physicalName="MOM.Incoming" />
- <queue physicalName="MOM.Audit" />
- </destinations>
+<destinations>
+    <queue physicalName="MOM.Incoming" />
+    <queue physicalName="MOM.Audit" />
+</destinations>
 ```
 
 These destinations will be created when broker starts, even if there is no consumers or producers. After these changes we can start our broker with following command:

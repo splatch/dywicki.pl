@@ -46,25 +46,25 @@ Całość komunikacji odbywała się z JMS w trybie request-reply dzięki Apache
 
 Z diagramu wyrzuciłem paczki które nie są istotne takie jak driver JDBC czy Commons ConnectionPool. Jedyny mankament na jaki trafiłem wiąże się z **DAO Service**, mianowicie bundle który go eksportuje poprzez Spring-DM musi zadeklarować widoczność wszystkich swoich klas dla paczki która będzie korzystać z usługi co jak by nie patrzeć jest drobnym wypaczeniem fasady jaką ma być ServiceReference. Niestety po 2 tygodniach poświęconych na uruchomienie JPA w OSGi nie siliłem się na elegancję.
 
-\[code language="xml"\]
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xmlns:osgi="http://www.springframework.org/schema/osgi"
- xsi:schemaLocation="
- http://www.springframework.org/schema/beans
- http://www.springframework.org/schema/beans/spring-beans.xsd
- http://www.springframework.org/schema/osgi
- http://www.springframework.org/schema/osgi/spring-osgi.xsd
- ">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:osgi="http://www.springframework.org/schema/osgi"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/osgi
+           http://www.springframework.org/schema/osgi/spring-osgi.xsd
+       ">
 
- <osgi:reference id="dataSource" interface="javax.sql.DataSource" />
+    <osgi:reference id="dataSource" interface="javax.sql.DataSource" />
 
- <osgi:service id="exchangeDAOExporter" ref="exchangeDAO"
- context-class-loader="service-provider"
- interface="org.code\_house.dataaccess.ExchangeDAO" />
+    <osgi:service id="exchangeDAOExporter" ref="exchangeDAO"
+                  context-class-loader="service-provider"
+                  interface="org.code_house.dataaccess.ExchangeDAO" />
 </beans>
-\[/code\]
+```
 
 ## Kolejne metadane
 

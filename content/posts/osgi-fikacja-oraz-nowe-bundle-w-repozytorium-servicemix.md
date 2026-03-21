@@ -12,7 +12,8 @@ url: /2010/03/osgi-new-bundles-servicemix-repository/
 W tym wpisie zostanie omówiony proces OSGi-fikacji artefaktów, który przechodziłem gdy uruchamiałem prostą usługę na ServiceMix, która miała śledzić zewnętrzny RSS i pobierać z niego wpisy. Postanowiłem skorzystać z camel-rss. Przykłady które były do niego załączone są wystarczające by stworzyć odpowiedniego konsumenta...
 
 Problem zaczął się gdy usiłowałem uruchomić endpoint camela w OSGi. Mimo poprawnej konfiguracji, rozwiązanych zależności otrzymywałem wyjątek:
-\[code\]java.lang.NoClassDefFoundError: Could not initialize class com.sun.syndication.feed.synd.SyndFeedImpl
+```
+java.lang.NoClassDefFoundError: Could not initialize class com.sun.syndication.feed.synd.SyndFeedImpl
  at com.sun.syndication.io.SyndFeedInput.build(SyndFeedInput.java:123)
  at org.apache.camel.component.rss.RssUtils.createFeed(RssUtils.java:34)
  at org.apache.camel.component.rss.RssEntryPollingConsumer.createFeed(RssEntryPollingConsumer.java:54)
@@ -27,52 +28,52 @@ Problem zaczął się gdy usiłowałem uruchomić endpoint camela w OSGi. Mimo p
  at java.util.concurrent.ThreadPoolExecutor$Worker.runTask(ThreadPoolExecutor.java:886)
  at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:908)
  at java.lang.Thread.run(Thread.java:619)
-\[/code\]
+```
 Naturalnie, strasznie zirytowany, wziąłem się za dochodzenie - początkowo byłem przekonany że brakuje importów w camel-rss jednakże krótkie googlowanie [wskazało rozwiązanie](http://js.jipiju.com/2009/08/04/osgi-jumping-through-classoading-hoops/). Winne było kilka linii w klasie PluginManager:
-\[code language="java"\]
- private Class\[\] getClasses() throws ClassNotFoundException {
- // Ten ClassLoader wskazuje na bundle w którym jest zdefiniowany endpoint!
- ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
- List classes = new ArrayList();
- boolean useLoadClass = Boolean.valueOf(System.getProperty(&amp;quot;rome.pluginmanager.useloadclass&amp;quot;, &amp;quot;false&amp;quot;)).booleanValue();
- for (int i = 0; i &amp;lt;\_propertyValues.length; i++) {
- // Naturalnie tutaj leciał ClassNotFoundException
- Class mClass = (useLoadClass ? classLoader.loadClass(\_propertyValues\[i\]) :
- Class.forName(\_propertyValues\[i\], true, classLoader));
- classes.add(mClass);
- }
- Class\[\] array = new Class\[classes.size()\];
- classes.toArray(array);
- return array;
- }
-\[/code\]
+```java
+private Class[] getClasses() throws ClassNotFoundException {
+    // Ten ClassLoader wskazuje na bundle w którym jest zdefiniowany endpoint!
+    ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+    List classes = new ArrayList();
+    boolean useLoadClass = Boolean.valueOf(System.getProperty("rome.pluginmanager.useloadclass", "false")).booleanValue();
+    for (int i = 0; i < _propertyValues.length; i++) {
+        // Naturalnie tutaj leciał ClassNotFoundException
+        Class mClass = (useLoadClass ? classLoader.loadClass(_propertyValues[i]) :
+            Class.forName(_propertyValues[i], true, classLoader));
+        classes.add(mClass);
+    }
+    Class[] array = new Class[classes.size()];
+    classes.toArray(array);
+    return array;
+}
+```
 
 Po przeróbce metoda wygląda następująco.
-\[code language="java"\]
- private Class\[\] getClasses() throws ClassNotFoundException {
- ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
- List classes = new ArrayList();
- boolean useLoadClass = Boolean.valueOf(System.getProperty(&amp;quot;rome.pluginmanager.useloadclass&amp;quot;, &amp;quot;false&amp;quot;)).booleanValue();
- for (int i = 0; i &amp;lt;\_propertyValues.length; i++) {
- Class mClass = null;
- try {
- if (useLoadClass) {
- mClass = classLoader.loadClass(\_propertyValues\[i\]);
- } else {
- mClass = Class.forName(\_propertyValues\[i\], true, classLoader);
- }
- } catch (ClassNotFoundException e) {
- // Jeśli zewnętrzny class loader zgłosi wyjątek usiłujemy załadować klasę
- // z bieżącej paczki
- mClass = getClass().getClassLoader().loadClass(\_propertyValues\[i\]);
- }
- classes.add(mClass);
- }
- Class\[\] array = new Class\[classes.size()\];
- classes.toArray(array);
- return array;
- }
-\[/code\]
+```java
+private Class[] getClasses() throws ClassNotFoundException {
+    ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+    List classes = new ArrayList();
+    boolean useLoadClass = Boolean.valueOf(System.getProperty("rome.pluginmanager.useloadclass", "false")).booleanValue();
+    for (int i = 0; i < _propertyValues.length; i++) {
+        Class mClass = null;
+        try {
+            if (useLoadClass) {
+                mClass = classLoader.loadClass(_propertyValues[i]);
+            } else {
+                mClass = Class.forName(_propertyValues[i], true, classLoader);
+            }
+        } catch (ClassNotFoundException e) {
+            // Jeśli zewnętrzny class loader zgłosi wyjątek usiłujemy załadować klasę
+            // z bieżącej paczki
+            mClass = getClass().getClassLoader().loadClass(_propertyValues[i]);
+        }
+        classes.add(mClass);
+    }
+    Class[] array = new Class[classes.size()];
+    classes.toArray(array);
+    return array;
+}
+```
 
 Naturalnie, można się zastanawiać po co bibliotece do obsługi RSS zabiegi z ClassLoaderami. Otóż ROME wykorzystuje plik .properties do konfiguracji "pluginów" (poors man DI). W określonych miejscach możemy dodać własne klasy które obsłużą jakiś niestandardowy format. Problem w tym, że "patent" z plikiem properties świetnie sprawdza się przy płaskim classloaderze, niestety zawodzi w OSGi. Należy pamiętać o tym, że w OSGi nasz class loader ma dostęp do tego, do czego mu pozwalają importy i nie wszystko to, co widzi nasze oko w archiwum musi być dostępne dla naszego programu.
 
@@ -105,92 +106,92 @@ Pozostałe zależności wymienione poniżej są wymagane by móc odczytać plik 
 - org.xml.sax
 
 Poniżej znajduje się pom.xml który przygotowałem po to by zaprezentować użycie wcześniej wspomnianych pluginów. Pom ten ma skutkować stworzeniem artefaktu OSGi gotowego do uruchomienia pod Kara-fem.
-\[code language="xml"\]
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4\_0\_0.xsd">
- <modelVersion>4.0.0</modelVersion>
+```xml
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
- <parent>
- <groupId>org.apache.servicemix.bundles</groupId>
- <artifactId>bundles-pom</artifactId>
- <version>4</version>
- </parent>
+    <parent>
+        <groupId>org.apache.servicemix.bundles</groupId>
+        <artifactId>bundles-pom</artifactId>
+        <version>4</version>
+    </parent>
 
- <groupId>org.apache.servicemix.bundles</groupId>
- <artifactId>org.apache.servicemix.bundles.log4j</artifactId>
- <version>1.2.12-SNAPSHOT</version>
- <packaging>bundle</packaging>
- <name>Apache ServiceMix Bundles: ${pkgArtifactId}-${pkgVersion}</name>
- <description>
- This bundle simply wraps ${pkgArtifactId}-${pkgVersion}.jar.
- </description>
+    <groupId>org.apache.servicemix.bundles</groupId>
+    <artifactId>org.apache.servicemix.bundles.log4j</artifactId>
+    <version>1.2.12-SNAPSHOT</version>
+    <packaging>bundle</packaging>
+    <name>Apache ServiceMix Bundles: ${pkgArtifactId}-${pkgVersion}</name>
+    <description>
+        This bundle simply wraps ${pkgArtifactId}-${pkgVersion}.jar.
+    </description>
 
- <properties>
- <!\-\- Zmienne dla maven-bundle-plugin -->
- <servicemix.osgi.export.pkg>
- org.apache.log4j\*;version=${pkgVersion}
- </servicemix.osgi.export.pkg>
- <servicemix.osgi.import.pkg>
- <!\-\- Zależności opcjonalne -->
- com.sun.jdmk.comm;resolution:=optional,
- javax.jms;resolution:=optional,
- javax.mail\*;resolution:=optional,
- javax.management;resolution:=optional,
- javax.naming;resolution:=optional,
- javax.swing\*;resolution:=optional,
- \\* <!\-\- Wszystkie inne zależności jakie doda analizator -->
- </servicemix.osgi.import.pkg>
- <!\-\- Zmienne artefaktu -->
- <pkgGroupId>log4j</pkgGroupId>
- <pkgArtifactId>log4j</pkgArtifactId>
- <pkgVersion>1.2.12</pkgVersion>
- </properties>
+    <properties>
+        <!-- Zmienne dla maven-bundle-plugin -->
+        <servicemix.osgi.export.pkg>
+            org.apache.log4j*;version=${pkgVersion}
+        </servicemix.osgi.export.pkg>
+        <servicemix.osgi.import.pkg>
+            <!-- Zależności opcjonalne -->
+            com.sun.jdmk.comm;resolution:=optional,
+            javax.jms;resolution:=optional,
+            javax.mail*;resolution:=optional,
+            javax.management;resolution:=optional,
+            javax.naming;resolution:=optional,
+            javax.swing*;resolution:=optional,
+            \* <!-- Wszystkie inne zależności jakie doda analizator -->
+        </servicemix.osgi.import.pkg>
+        <!-- Zmienne artefaktu -->
+        <pkgGroupId>log4j</pkgGroupId>
+        <pkgArtifactId>log4j</pkgArtifactId>
+        <pkgVersion>1.2.12</pkgVersion>
+    </properties>
 
- <dependencies>
- <!\-\- zależność do log4j -->
- <dependency>
- <groupId>${pkgGroupId}</groupId>
- <artifactId>${pkgArtifactId}</artifactId>
- <version>${pkgVersion}</version>
- <optional>true</optional>
- </dependency>
- </dependencies>
+    <dependencies>
+        <!-- zależność do log4j -->
+        <dependency>
+            <groupId>${pkgGroupId}</groupId>
+            <artifactId>${pkgArtifactId}</artifactId>
+            <version>${pkgVersion}</version>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
 
- <build>
- <plugins>
- <!\-\- Kopiowanie plików .class -->
- <plugin>
- <groupId>org.apache.maven.plugins</groupId>
- <artifactId>maven-shade-plugin</artifactId>
- <executions>
- <execution>
- <phase>package</phase>
- <goals>
- <goal>shade</goal>
- </goals>
- <configuration>
- <artifactSet>
- <includes>
- <include>${pkgGroupId}:${pkgArtifactId}</include>
- </includes>
- </artifactSet>
- <filters>
- <filter>
- <artifact>${pkgGroupId}:${pkgArtifactId}</artifact>
- <excludes>
- <exclude>\*\*</exclude>
- </excludes>
- </filter>
- </filters>
- <promoteTransitiveDependencies>true</promoteTransitiveDependencies>
- <createDependencyReducedPom>true</createDependencyReducedPom>
- </configuration>
- </execution>
- </executions>
- </plugin>
- </plugins>
- </build>
+    <build>
+        <plugins>
+            <!-- Kopiowanie plików .class -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <artifactSet>
+                                <includes>
+                                    <include>${pkgGroupId}:${pkgArtifactId}</include>
+                                </includes>
+                            </artifactSet>
+                            <filters>
+                                <filter>
+                                    <artifact>${pkgGroupId}:${pkgArtifactId}</artifact>
+                                    <excludes>
+                                        <exclude>**</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                            <promoteTransitiveDependencies>true</promoteTransitiveDependencies>
+                            <createDependencyReducedPom>true</createDependencyReducedPom>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
-\[/code\]
+```
 
 Teraz pora na instalację bundla na szynie:
 

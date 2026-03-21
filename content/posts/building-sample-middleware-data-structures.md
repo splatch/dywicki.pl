@@ -66,10 +66,10 @@ There is number of different wire formats not listed here - for example [Protobu
 
 Like in most cases, also with middleware we have some data structures. Because we going to process simple cash transactions we'll have following classes:
 
-- org.code\_house.mom.domain.Transaction
-- org.code\_house.mom.domain.Client
-- org.code\_house.mom.domain.Money
-- org.code\_house.mom.domain.Money.Currency
+- org.code_house.mom.domain.Transaction
+- org.code_house.mom.domain.Client
+- org.code_house.mom.domain.Money
+- org.code_house.mom.domain.Money.Currency
 
 ### Transaction
 

@@ -35,21 +35,21 @@ Once we know what is location of our binary artifacts which can be used for test
 
 ```xml
 <profile>
- <id>karaf-4.1.4</id>
+    <id>karaf-4.1.4</id>
 
- <activation>
- <activeByDefault>false</activeByDefault>
- </activation>
+    <activation>
+        <activeByDefault>false</activeByDefault>
+    </activation>
 
- <repositories>
- <repository>
- <id>karaf-4.1.4</id>
- <name>Karaf 4.1.4 Stage Repo</name>
- <url>https://repository.apache.org/content/repositories/orgapachekaraf-1102/</url>
- <snapshots><enabled>false</enabled></snapshots>
- <releases><enabled>true</enabled></releases>
- </repository>
- </repositories>
+    <repositories>
+        <repository>
+            <id>karaf-4.1.4</id>
+            <name>Karaf 4.1.4 Stage Repo</name>
+            <url>https://repository.apache.org/content/repositories/orgapachekaraf-1102/</url>
+            <snapshots><enabled>false</enabled></snapshots>
+            <releases><enabled>true</enabled></releases>
+        </repository>
+    </repositories>
 </profile>
 ```
 

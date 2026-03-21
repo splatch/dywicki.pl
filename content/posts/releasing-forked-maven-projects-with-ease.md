@@ -16,7 +16,7 @@ In this pretty short introduction I am going to describe you a trick which I lea
 
 Whole problem in forks is cost of their creation and maintenance. Obviously we do our own releases for various reasons. Starting point for what I am writing here is another remote GIT repository which contains several extra commits awaiting, let say for official release from origin maintainers.
 
-```
+```bash
 $ git remote -v
 github	git@github.com:splatch/openhab-core.git (fetch)
 github	git@github.com:splatch/openhab-core.git (push)
@@ -32,7 +32,7 @@ In reality most of projects do not bother about that, being busy with bugs repor
 
 Each Maven project which gets released through all sorts of plugins have SCM information. Something like this:
 
-```
+```xml
   <scm>
     <connection>scm:git:https://github.com/openhab/openhab-core.git</connection>
     <developerConnection>scm:git:https://github.com/openhab/openhab-core.git</developerConnection>
@@ -86,7 +86,7 @@ With these two things your jenkins should be able to pick pretty much any repo a
 
 Given that above snippets are not complete here you will find all-in-one. I skip `.mvn/ci-settings.xml` as it needs to define necessary `server` sections. I also omit `.mvn/release.config` file which should contain list of extra parameters for `release:prepare` and `perform` calls.
 
-```
+```bash
 #!/bin/bash
 
 if [ ! -f .mvn/ci-settings.xml ];

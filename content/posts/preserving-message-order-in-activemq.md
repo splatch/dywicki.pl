@@ -21,34 +21,34 @@ In his example Marcelo used broker feature called [Exclusive Consumers](http://a
 ## Broker configuration
 
 So how to force ActiveMQ to preserve message order? It's really simple, we just need to change dispatch policy for destination. We can do this for all queues or only for selected.
-\[xml\]
+```xml
 <beans xmlns="http://www.springframework.org/schema/beans"
- xmlns:amq="http://activemq.apache.org/schema/core">
+    xmlns:amq="http://activemq.apache.org/schema/core">
 
- <broker xmlns="http://activemq.apache.org/schema/core">
- <destinationPolicy>
- <policyMap>
- <policyEntries>
- <policyEntry queue=">"><!-- Please refer 2nd part of this post -->
- <dispatchPolicy>
- <strictOrderDispatchPolicy />
- </dispatchPolicy>
- </policyEntry>
- </policyEntries>
- </policyMap>
- </destinationPolicy>
- </broker>
+    <broker xmlns="http://activemq.apache.org/schema/core">
+        <destinationPolicy>
+            <policyMap>
+                <policyEntries>
+                    <policyEntry queue=">"><!-- Please refer 2nd part of this post -->
+                        <dispatchPolicy>
+                              <strictOrderDispatchPolicy />
+                        </dispatchPolicy>
+                    </policyEntry>
+                </policyEntries>
+            </policyMap>
+        </destinationPolicy>
+    </broker>
 </beans>
-\[/xml\]
+```
 
 After this consumers should receive messages in same order like they were sent from producer. You can find example code on github: [example-activemq-ordered](https://github.com/splatch/example-activemq-ordered). You can run all from maven:
-\[bash\]
+```bash
 cd broker1; mvn activemq:run
 cd broker2; mvn activemq:run
 cd consumer; mvn camel:run
 cd consumer; mvn camel:run
 cd producer; mvn camel:run
-\[/bash\]
+```
 
 ## Upgrade
 

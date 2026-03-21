@@ -34,7 +34,7 @@ Whats's more, an experimental branch of pax-wicket which I worked on previously 
 ## Extensions
 
 New elements who are added to Karaf WebConsole are typically Wicket components or they are converted to them. Let see how to add new element to navigation:
-\[java\]
+```java
 package org.apache.karaf.webconsole.blueprint.internal.navigation;
 
 import java.util.ArrayList;
@@ -49,44 +49,44 @@ import org.apache.wicket.markup.html.link.Link;
 
 public class BlueprintNavigationProvider implements NavigationProvider {
 
- public List<Link<Page>> getItems(String componentId, String labelId) {
- List<Link<Page>> items = new ArrayList<Link<Page>>();
+    public List<Link<Page>> getItems(String componentId, String labelId) {
+        List<Link<Page>> items = new ArrayList<Link<Page>>();
 
- Link<Page> link = new BookmarkablePageLink<Page>(componentId, BlueprintPage.class);
- link.add(new Label(labelId, "Blueprint"));
- items.add(link);
+        Link<Page> link = new BookmarkablePageLink<Page>(componentId, BlueprintPage.class);
+        link.add(new Label(labelId, "Blueprint"));
+        items.add(link);
 
- return items;
- }
+        return items;
+    }
 
 }
-\[/java\]
+```
 
 ![](/wp-content/uploads/2011/11/menu-entry.png)
 Interface **org.apache.karaf.webconsole.core.navigation.NavigationProvider** is universal supplier of navigation elements. In web application it's mostly about links. Now, when we have implementation we need to submit it into registry to let use it. In this particular example we going to use blueprint, but it might be a standard activator or any other declarative way as well.
-\[xml\]<?xml version="1.0" encoding="utf-8" ?>
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
 <blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0">
 
- <service ref="provider" interface="org.apache.karaf.webconsole.core.navigation.NavigationProvider">
- <service-properties>
- <entry key="extends" value="osgi" />
- </service-properties>
+    <service ref="provider" interface="org.apache.karaf.webconsole.core.navigation.NavigationProvider">
+        <service-properties>
+              <entry key="extends" value="osgi" />
+      </service-properties>
+    </service>
 
- </service>
-
- <bean id="provider" class="org.apache.karaf.webconsole.blueprint.internal.navigation.BlueprintNavigationProvider" />
+    <bean id="provider" class="org.apache.karaf.webconsole.blueprint.internal.navigation.BlueprintNavigationProvider" />
 
 </blueprint>
-\[/xml\]
+```
 
 Fragment above will cause addition of **BlueprintPage** as child of OSGi menu, because we set extends property. Result of execution you may see on attached picture.
 
 Navigation is only example, remember - you have much more possibilities:
 
-- org.apache.karaf.webconsole.core.brand.BrandProvider - lets to change design (without fragment bundles)
-- org.apache.karaf.webconsole.core.navigation.ConsoleTabProvider - causes addition of new tab in navigation
-- org.apache.karaf.webconsole.core.navigation.SidebarProvider - adds new elements on left side
-- org.apache.karaf.webconsole.core.widget.WidgetProvider - lets to publish new panels with content
-- org.apache.karaf.webconsole.osgi.bundle.IActionProvider - adds specific link to bundle list
-- org.apache.karaf.webconsole.osgi.bundle.IColumnProvider - adds column to bundle list
-- org.apache.karaf.webconsole.osgi.bundle.IDecorationProvider - adds icon bundle list
+- `org.apache.karaf.webconsole.core.brand.BrandProvider` - lets to change design (without fragment bundles)
+- `org.apache.karaf.webconsole.core.navigation.ConsoleTabProvider` - causes addition of new tab in navigation
+- `org.apache.karaf.webconsole.core.navigation.SidebarProvider` - adds new elements on left side
+- `org.apache.karaf.webconsole.core.widget.WidgetProvider` - lets to publish new panels with content
+- `org.apache.karaf.webconsole.osgi.bundle.IActionProvider` - adds specific link to bundle list
+- `org.apache.karaf.webconsole.osgi.bundle.IColumnProvider` - adds column to bundle list
+- `org.apache.karaf.webconsole.osgi.bundle.IDecorationProvider` - adds icon bundle list

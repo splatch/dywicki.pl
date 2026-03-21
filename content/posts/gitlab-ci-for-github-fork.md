@@ -34,7 +34,7 @@ Because openHAB project uses Travis CI and Jenkins adding gitlab pipeline didn't
 
 Equipped in this knowledge (after several hours of fruitless attempts) I made my first scripted attempt which adds new remote, fetch changes from it, then push update to gitlab and github forks. An important note here, script uses rebase - so it tries to put my commits (in this case its only CI config) on top of remote ones.
 
-```
+```bash
 #!/bin/bash
 # dear executor, please help me debugging this...
 # set -xv
@@ -75,7 +75,7 @@ Whole procedure is:
 
 Pipeline I tested was quite simple:
 
-```
+```yaml
 stages:
   - mirror
   - build
@@ -93,7 +93,7 @@ Shortly after I committed first revision I realized that such script can run for
 
 Once I started to dig into `.gitlab-ci.yml` syntax I found a mysterious element called `rules`. Normally I used `only/refs` and `except/refs`, but this one really matched my case. Rules support basic conditions such `if`, `exists` and `changes`. It turns out that `only` can be paired with `variables` giving similar result to branch filtering, so if any of my advice here doesn't fly for any reason, try it. My complete pipeline definition is below:
 
-```
+```yaml
 stages:
   - mirror
   - build

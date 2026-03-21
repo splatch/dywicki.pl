@@ -21,7 +21,7 @@ Our help in this case will be `kubectl patch`. The patch command allows to repla
 
 If you wonder how to make it happen, this is how I managed it:
 
-```
+```bash
 #!/bin/bash
 namespace="foo"
 keyFile="my-custom-ca.key"

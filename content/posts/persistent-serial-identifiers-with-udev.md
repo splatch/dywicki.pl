@@ -27,7 +27,7 @@ If we are on attributes - some vendors keep using the same value for vendor, pro
 
 The `idVendor` and `idProduct` attributes come from device side. On computer end we usually have USB hub or hubs which handle ports and do all the low level work. If we look at list of attributes available at this place we can find quite many unique elements:
 
-```
+```plain
   looking at parent device '/devices/pci0000:00/0000:00:15.0/usb1/1-1':
     KERNELS=="1-1"
     SUBSYSTEMS=="usb"
@@ -64,7 +64,7 @@ Above is one of nodes which corresponds device plugged into hub 1 (busnum==1) at
 
 Because we successfully identified what linux kernel knows about port numbers we can try to bake udev rule for it. I won't dive into details of how udev rules are matched or constructed as there are many materials describing that. Below I explain rationale behind this rule:
 
-```
+```plain
 KERNEL=="ttyUSB[0-9]*", ATTRS{bDeviceClass}=="00", ATTRS{bDeviceProtocol}=="00", ATTRS{bDeviceSubClass}=="00", ATTRS{busnum}=="*", ATTRS{devnum}=="*", ATTRS{devpath}=="*", ATTRS{serial}=="*", SYMLINK+="ttyUSB$attr{busnum}.$attr{devnum}.$attr{devpath}.$attr{serial}"
 ```
 
@@ -75,7 +75,7 @@ This is really it - there are a lot of examples where you will find `SYMLINK+="m
 
 Lets have a look on results:
 
-```
+```bash
 $ ls -la /dev/ttyUSB*
 crw-rw---- 1 root dialout 188, 0 May  9 08:42 /dev/ttyUSB0
 crw-rw---- 1 root dialout 188, 1 May  9 08:42 /dev/ttyUSB1

@@ -29,23 +29,23 @@ The core difference between hooks in Equinox and in OSGi 4.3 is how they are reg
 ## Enabling in Karaf
 
 Because actual version of Karaf (2.2.4) still works with OSGi 4.2 we'll use older way to enable aspects. First of all, before launch we'll change default framework. By default Karaf distribution uses Felix as OSGi framework. Open the **etc/config.properties** and change the **karaf.framework** property to **equinox**.
-\[java\]
+```java
 karaf.framework=equinox
-\[/java\]
+```
 
 If you are interested in different versions of same framework, you can simply hack this file because the karaf.framework is used to look up another property. Few lines below in configuration file you can see:
-\[plain\]
-karaf.framework.equinox=${karaf.default.repository}/org/eclipse/osgi/3.6.2.R36x\_v20110210/osgi-3.6.2.R36x\_v20110210.jar
+```
+karaf.framework.equinox=${karaf.default.repository}/org/eclipse/osgi/3.6.2.R36x\_v20110210/osgi-3.6.2.R36x_v20110210.jar
 karaf.framework.felix=${karaf.default.repository}/org/apache/felix/org.apache.felix.framework/3.0.9/org.apache.felix.framework-3.0.9.jar
-\[/plain\]
+```
 
 Framework JAR is located by expression **karaf.framework.${karaf.framework}**. But that's only a note for curious people. ;)
 
 [![Files in Karaf home and lib](/wp-content/uploads/2011/11/dir-struct-300x204.png)](/wp-content/uploads/2011/11/dir-struct.png) Once we switched to Equinox we have only few steps left. First of all we need to install aspectj and weaving hook. Last part is example aspects. I had problem to locate fresh version of Weaving hook because project was moved from Equinox Incubator to Equinox Bundles. We need download whole [Equinox SDK](http://download.eclipse.org/equinox/) to grab following artifacts from plugins directory:
 
-- org.eclipse.equinox.weaving.aspectj\_1.0.1.v20110502.jar
-- org.eclipse.equinox.weaving.caching\_1.0.100.v20110502.jar
-- org.eclipse.equinox.weaving.hook\_1.0.100.v20110502.jar
+- org.eclipse.equinox.weaving.aspectj_1.0.1.v20110502.jar
+- org.eclipse.equinox.weaving.caching_1.0.100.v20110502.jar
+- org.eclipse.equinox.weaving.hook_1.0.100.v20110502.jar
 
 I copied these artifacts to karaf home directory except **org.eclipse.equinox.weaving.hook**. It goes to lib directory, otherwise hook won't be discovered. That's because hook discovery is done by property file lookup. The lookup uses framework class loader and in Karaf case it is URLClassLoader with lib/ entries and framework archive.
 
@@ -86,26 +86,26 @@ To resolve correctly fragment bundle and connect it with equinox system bundle a
 ## Running aspects
 
 After installing all stuff it would be nice to run some aspects, isn't? :) If we have environment ready to handle byte code manipulation it would be nice to use it. As an example Aspect I will use char counter. After writing to PrintStream instance it will write information how many characters was writen and to which stream. I don't know AspectJ syntax so it might not be optimal - feedback is welcome.
-\[java\]
-package org.code\_house.workshop.karaf.aspect.aspectj;
+```java
+package org.code_house.workshop.karaf.aspect.aspectj;
 
 import java.io.PrintStream;
 import org.osgi.framework.BundleActivator;
-import org.osgi.framework.BundleContext;;
+import org.osgi.framework.BundleContext;
 
 public aspect HelloAspect {
 
- after(String msg, PrintStream stream) : // after call
- call(void PrintStream.println(String)) // println
- && !within(HelloAspect) // not from Aspect
- && args(msg) // with String attribute
- && target(stream) { // and PrintStream as a target
- stream.println("You just wrote " + msg.length() + " chars to " + stream); // display message
- }
+    after(String msg, PrintStream stream) : // after call
+        call(void PrintStream.println(String)) // println
+            && !within(HelloAspect) // not from Aspect
+            && args(msg) // with String attribute
+            && target(stream) { // and PrintStream as a target
+        stream.println("You just wrote " + msg.length() + " chars to " + stream); // display message
+    }
 }
-\[/java\]
+```
 Because we going to weave classes during load time we need **META-INF/aop.xml** file to let discover our aspects. Contents of file are really simple and points to aspect class name. Also it worth to notify to be careful with AspectJ version. I've got an error:
-\[plain\]BCException: Unable to continue, this version of AspectJ supports classes built with weaver version 6.0 but the class org.code\_house.workshop.karaf.aspect.aspectj.HelloAspect is version 7.0\[/plain\]
+`BCException: Unable to continue, this version of AspectJ supports classes built with weaver version 6.0 but the class org.code_house.workshop.karaf.aspect.aspectj.HelloAspect is version 7.0`
 The root cause is version mismatch between runtime and compile time. I used version 1.6.11 to compiler and 1.6.8 to run. After aligning versions to 1.6.8 it started working again.
 Second, important thing is a specific manifest entry **Eclipse-SupplementBundle**. It says which bundle is enhanced by aspects contained inside declaring bundle. I've put **org.code-house.workshop.karaf.aspect.bundle** because I going only to instrument one bundle. But value of this header might be an wildcard. Second option is to add **Require-Bundle** header pointing to org.aspectj.runtime.
 

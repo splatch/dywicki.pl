@@ -18,8 +18,8 @@ Do uruchomienia przykładów potrzebować będziemy dwóch paczek - pierwsza to 
 
 Po pobraniu odpowiedniej wersji należy ją rozpakować do wybranego folderu. Szynę uruchamiamy skryptem servicemix.bat. Jeśli wszystko przebiegło poprawnie naszym oczom powinien ukazać się obrazek jak poniżej:
 
-```
-E:toolsprogressfuse-esb4.2.0-bbin>servicemix.bat
+```bash
+E:/tools/progressfuse-esb4.2.0-b/bin>servicemix.bat
  ____                  _          __  __ _
 / ___|  ___ _ ____   _(_) ___ ___|  /  (_)_  __
 ___  / _  '__  / / |/ __/ _  |/| |  / /
@@ -36,7 +36,7 @@ karaf@root>
 
 Od tej chwili mamy do dyspozycji konsolę administracyjną. Aby zwiększyć jej użyteczność wykonujemy następujące polecenia:
 
-```
+```bash
 karaf@root> osgi:install wrap:mvn:http://download.java.net/maven/2!net.java.dev.jna/jna/3.1.0
 Bundle ID: 134
 
@@ -44,7 +44,7 @@ Bundle ID: 134
 
 Spowoduje to pobranie z repozytorium Mavena (http://download.java.net/maven/2) biblioteki JNA w wersji 3.1.0. Nie musimy oczywiście określać za każdym razem adresu repozytoriów, ale o tym nieco później. Prefix wrap: spowoduje wygenerowanie manifestu OSGi na podstawie zawartości pobranej biblioteki. Jest on konieczny ponieważ JNA nie dostarcza potrzebnych danych do uruchomienia w środowisku OSGi.
 
-```
+```bash
 karaf@root> osgi:install mvn:http://jansi.fusesource.org/repo/release!org.fusesource.jansi/jansi/1.2
 Bundle ID: 135
 
@@ -52,7 +52,7 @@ Bundle ID: 135
 
 Druga biblioteka wykorzystuje JNA i umożliwia kolorowanie tekstu w konsoli windowsowej zgodnie z ANSI, czyli tak jak w standardowych terminalach Unix-a. Po zainstalowaniu tych dwóch rzeczy pora zaprząc je do pracy. Poniżej filtrujemy listę zainstalowanych rzeczy po słowie Console.
 
-```
+```bash
 karaf@root> list|grep Console
 [  10] [Active     ] [Created     ] [       ] [   30] Apache Felix Karaf :: Shell Console (1.4.0.fuse-01-00)
 karaf@root> refresh 10
@@ -61,7 +61,7 @@ karaf@root> refresh 10
 
 Numer 10 oznacza id paczki OSGi, tekst Active to stan paczki a tekst Created informuje o stanie kontekstu blueprint, czwarty bloczek to stan kontekstu Springa, numer 30 to start level paczki a w ostatnim nawiasie mamy wersję. Sporo informacji jak na jedną linijkę, nieprawdaż? Blueprint to standaryzowanie tego czym jest Spring i Spring DM, także można korzystać zamiennie bądź z jednego bądź z drugiego rozwiązania. Ciekawe porównanie funkcjonalności obu rozwiązań - Spring DM oraz Blueprint opublikował kilka dni temu Guillaume Nodet na swoim blogu we wpisie [Spring-DM, Aries Blueprint and custom namespaces](http://gnodet.blogspot.com/2010/03/spring-dm-aries-blueprint-and-custom.html). Apache Camel od wersji 2.3 będzie wspierał Blueprint ( [CAMEL-2022](https://issues.apache.org/activemq/browse/CAMEL-2022)).
 
-```
+```bash
 
  ____                  _          __  __ _
 / ___|  ___ _ ____   _(_) ___ ___|  /  (_)_  __
@@ -79,7 +79,7 @@ karaf@root>
 
 Teraz wykonanie poleceń z filtrem **grep** spowoduje podświetlenie szukanej frazy:
 
-```
+```bash
 karaf@root> list |grep Console
 [  10] [Active     ] [Created     ] [       ] [   30] Apache Felix Karaf :: Shell Console (1.4.0.fuse-01-00)
 
@@ -97,7 +97,7 @@ PoleceniePrzeznaczenielistWyświetlenie listy zainstalowanych paczekls \[bundle 
 
 Kiedy znamy już listę poleceń nie pozostaje nic innego jak je wypróbować. :-) Checkout [przykładowego kodu](http://svn.code-house.org/wjug/) z SVN pozwoli wykonać nam kilka ćwiczeń. Po wykonaniu polecenia **mvn clean install** w repozytorium Mavena są JARy które, naturalnie, chcemy zainstalować. Rezultat jaki powinniśmy zobaczyć w konsoli to:
 
-```
+```bash
 [INFO] ------------------------------------------------------------------------
 [INFO] Reactor Summary:
 [INFO] ------------------------------------------------------------------------
@@ -145,7 +145,7 @@ Jak widać dwa główne obszary projektu są skupione w katalogach internal oraz
 
 Aby zainstalować któryś bundle przechodzimy do konsoli ServiceMix'a i wykonujemy takie polecenia:
 
-```
+```bash
 karaf@root> install -s mvn:org.code-house.samples/api/1.0.0.SNAPSHOT
 Bundle ID: 210
 karaf@root> features:install camel-jetty
@@ -158,7 +158,7 @@ Po wykonaniu tych poleceń powinien być uruchomiony Web Service którego WSDL z
 
 Kolejne paczki instalujemy analogicznie:
 
-```
+```bash
 karaf@root> features:install camel-activemq
 karaf@root> install -s mvn:org.code-house.samples.external/validator/1.0.0.SNAPSHOT
 Bundle ID: 215
@@ -173,25 +173,27 @@ Rozszerzenie [camel-activemq](http://camel.apache.org/activemq.html) jest rozsze
 
 Maven jako narzędzie do budowania korzysta z określonego schematu składowania bibliotek które następnie są automatycznie pobierane. Karaf, który jak wspomniałem podczas prezentacji, wyłonił się z projektu ServiceMix Kernel korzysta z biblioteki [Pax URL](http://wiki.ops4j.org/display/paxurl/Documentation). Dzięki temu z marszu mamy dostęp do standardowych repozytoriów Mavena, co jednak gdy mamy swoje repozytorium, które zawiera tylko nasze artefakty?
 Otwieramy plik etc/org.ops4j.pax.url.mvn.cfg i dodajemy w nim co trzeba. Moja standardowa konfiguracja wygląda następująco:
-\[code\]
+```properties
 org.ops4j.pax.url.mvn.settings=E:/tools/maven-2.2.1/conf/settings.xml
 org.ops4j.pax.url.mvn.localRepository=E:/repository
 org.ops4j.pax.url.mvn.defaultRepositories=file:${karaf.home}/${karaf.default.repository}@snapshots
-org.ops4j.pax.url.mvn.repositories=
- http://repo1.maven.org/maven2,
- http://repo.fusesource.com/maven2,
- http://repo.fusesource.com/maven2-snapshot@snapshots@noreleases,
- http://repository.apache.org/content/groups/snapshots-group@snapshots@noreleases,
- http://repository.ops4j.org/maven2,
- http://svn.apache.org/repos/asf/servicemix/m2-repo,
- http://repository.springsource.com/maven/bundles/release,
- http://repository.springsource.com/maven/bundles/external,
- http://repository.code-house.org/content/groups/release,
- http://repository.code-house.org/content/groups/snapshot@snapshots@noreleases,
- http://jansi.fusesource.org/repo/release
-\[/code\]
+org.ops4j.pax.url.mvn.repositories=\
+    http://repo1.maven.org/maven2,\
+    http://repo.fusesource.com/maven2,\
+    http://repo.fusesource.com/maven2-snapshot@snapshots@noreleases,\
+    http://repository.apache.org/content/groups/snapshots-group@snapshots@noreleases,\
+    http://repository.ops4j.org/maven2,\
+    http://svn.apache.org/repos/asf/servicemix/m2-repo,\
+    http://repository.springsource.com/maven/bundles/release,\
+    http://repository.springsource.com/maven/bundles/external,\
+    http://repository.code-house.org/content/groups/release,\
+    http://repository.code-house.org/content/groups/snapshot@snapshots@noreleases,\
+    http://jansi.fusesource.org/repo/release
+```
 Dzięki temu PAX w pierwszej kolejności będzie skanował katalog E:/repository zamiast standardowego ~/.m2/repository. Jeśli któreś z repozytoriów wymaga autoryzacji adres powinien wyglądać następująco:
-\[code\]http://user:pass@jansi.fusesource.org/repo/release\[/code\]
+```
+http://user:pass@jansi.fusesource.org/repo/release
+```
 
 ### Podsumowanie
 

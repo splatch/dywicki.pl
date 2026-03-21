@@ -60,23 +60,23 @@ Te pliki są niepotrzebne w tej chwili w naszej instalacji.
 
 Ponieważ skrypt activemq-admin tworzy domyślną konfigurację brokera będziemy musieli ją nieco zmodyfikować. **Pamiętaj aby wstawiać elementy w XML w porządku alfabetycznym. Od wydania 5.4 elementy w konfiguracji ActiveMQ są uporządkowane.**. Na początku zmienimy element destinationPolicy:
 ```xml
- <destinationPolicy>
- <policyMap>
- <policyEntries>
- <policyEntry queue=">" optimizedDispatch="true" lazyDispatch="false" producerFlowControl="false" memoryLimit="12 mb" />
- <policyEntry queue="MOM.Client.>" advisoryForDelivery="true" advisoryForConsumed="true" />
- </policyEntries>
- </policyMap>
- </destinationPolicy>
+<destinationPolicy>
+    <policyMap>
+        <policyEntries>
+            <policyEntry queue=">" optimizedDispatch="true" lazyDispatch="false" producerFlowControl="false" memoryLimit="12 mb" />
+            <policyEntry queue="MOM.Client.>" advisoryForDelivery="true" advisoryForConsumed="true" />
+        </policyEntries>
+    </policyMap>
+</destinationPolicy>
 ```
 Pierwszy element policyEntry wyłącza producerFlowControl. Innymi słowy ActiveMQ będzie akceptować wszystkie wiadomości wysłane przez producenta nawet po przekroczeniu limitu pamięci. Komunikaty które nie będą mieściły się w pamięci będą zapisywane (na dysku). Domyślnie dyrektywa producerFlowControl w ActiveMQ jest ustawiona na true i broker będzie informował producenta by poczekać na zwolnienie pamięci, np. na to by komunikaty z kolejki zostały skonsumowane. Drugi element włącza komunikaty pomocnicze dla dostarczenia i konsumpcji komunikató∑ z kolejek MOM.Client.\*. Komunikaty te są wysyłane przez brokera gdy komunikat od producenta został przyjęty i pomyślnie przetworzony przz konsumenta. ActiveMQ oferuje kila [komunikatów i topiców pomocniczych](http://activemq.apache.org/advisory-message.html). Niektóre z nich są domyślnie wyłączone, inne włączone.
 
 Druga zmiana to dodanie w konfiguracji pre definiowanych destynacji.
 ```xml
- <destinations>
- <queue physicalName="MOM.Incoming" />
- <queue physicalName="MOM.Audit" />
- </destinations>
+<destinations>
+    <queue physicalName="MOM.Incoming" />
+    <queue physicalName="MOM.Audit" />
+</destinations>
 ```
 
 Owe destynacje zostaną stworzone podczas uruchomienia brokera, nawet jeśli nie będzie konsumentów i producentów. Po tych zmianach możemy wystartować naszego brokera następującym poleceniem:

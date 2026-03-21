@@ -17,7 +17,7 @@ I believe that I am not only one who needed to get a secret value out of kuberne
 
 While looking for solution I found a blog post titled " [Retrieve TLS certificates from Kubernetes](https://blog.kubovy.eu/2020/05/16/retrieve-tls-certificates-from-kubernetes/)", which partially answered my question. Sadly it used both json and jq. It took me a bit to find out that `kubectl` output I have is not something which will be easy for jsonpath flavor supported by `kubectl` itself:
 
-```
+```js
 {
   "apiVersion": "v1",
   "data": {
@@ -48,7 +48,7 @@ In theory we could compare beginning of base64 representation, but it is not a r
 
 Luckily a quick inspection of `kubectl` output format revealed "go-template" output which seemed more flexible in constructing conditions.
 
-```
+```bash
 kubectl get secret client-root-ca-certificate -ogo-template='{{index .data "ca.crt" }}'
 ```
 

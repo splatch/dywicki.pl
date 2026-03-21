@@ -12,6 +12,7 @@ url: /
 Bluetooth 4 and low energy profile allows wide implementations. In order to get it running locally we need few things - first of all working bluez stack. For me it become a difficulty because tinyb is not up to date with latest bluez which got installed on my arch machine. Therefore I had to hack a little bit:
 
 \- Run openhab in privileged mode:
+
 docker run \
  --name openhab \
  --net=host \

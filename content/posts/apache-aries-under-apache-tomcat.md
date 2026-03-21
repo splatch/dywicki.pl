@@ -21,111 +21,117 @@ Of course you can still run Spring-DM under OSGi or select some Spring Source pr
 As you (may) know OSGi is an module layer. Tomcat is an servlet container. If you wish run something under Tomcat that must be an WAR. So to start using OSGi under Tomcat I'll simply embed it inside an war. Because I would expose a servlets registered under OSGi to be accessible throught tomcat connector I'll also use additional proxy service. So there are two different solutions one is Equinox Servlet Bridge and Felix Http Bridge. Both works fine. For this post I've selected Felix artifacts.
 
 Starting Framework is really simple, you just need an instance of ServletContextListener which will start the framework.
-\[java\]public class StartupListener implements ServletContextListener {
+```java
+public class StartupListener implements ServletContextListener {
 
- private Logger logger = LoggerFactory.getLogger(StartupListener.class);
+    private Logger logger = LoggerFactory.getLogger(StartupListener.class);
 
- private FrameworkService service;
+    private FrameworkService service;
 
- public void contextInitialized(ServletContextEvent event) {
- logger.info("Starting felix framework");
+    public void contextInitialized(ServletContextEvent event) {
+        logger.info("Starting felix framework");
 
- this.service = new FrameworkService(event.getServletContext());
- this.service.start();
- }
+        this.service = new FrameworkService(event.getServletContext());
+        this.service.start();
+    }
 
- public void contextDestroyed(ServletContextEvent event) {
- logger.info("Framework shutdown");
+    public void contextDestroyed(ServletContextEvent event) {
+        logger.info("Framework shutdown");
 
- this.service.stop();
- }
-}\[/java\]
+        this.service.stop();
+    }
+}
+```
 I could finish my post here, but I've meet multiple problems. I will describe them here to not lost them in future. :)
 
 ### FrameworkService and ProvisioningActivator
 
 First of all, I would like to install some bundles after framework startup. Starting only Felix is not fun at all. We need modules! To get this part done we need to use an specific Felix configuration option called **felix.systembundle.activators**. It allows to pass BundleActivator instances using different classloader/different context than OSGi framework execution. By this way we can simply access resources embeded in WAR. I know it is not really nice solution, but I wanted to keep my demo simple. Just see the ProvisioningActivator code below. We use our servlet context during bundle activation!
 
-\[java\]public class ProvisionActivator implements BundleActivator {
+```java
+public class ProvisionActivator implements BundleActivator {
 
- private final ServletContext servletContext;
+    private final ServletContext servletContext;
 
- private static transient Logger logger = Logger.getLogger(ProvisionActivator.class.getName());
+    private static transient Logger logger = Logger.getLogger(ProvisionActivator.class.getName());
 
- public ProvisionActivator(ServletContext servletContext) {
- this.servletContext = servletContext;
- }
+    public ProvisionActivator(ServletContext servletContext) {
+        this.servletContext = servletContext;
+    }
 
- public void start(BundleContext context) throws Exception {
- servletContext.setAttribute(BundleContext.class.getName(), context);
+    public void start(BundleContext context) throws Exception {
+        servletContext.setAttribute(BundleContext.class.getName(), context);
 
- ArrayList<Bundle> installed = new ArrayList<Bundle>();
- for (URL url : findBundles()) {
- Bundle bundle = context.installBundle(url.getFile(), url.openStream());
- installed.add(bundle);
- }
+        List<Bundle> installed = new ArrayList<Bundle>();
+        for (URL url : findBundles()) {
+            Bundle bundle = context.installBundle(url.getFile(), url.openStream());
+            installed.add(bundle);
+        }
 
- for (Bundle bundle : installed) {
- try {
- bundle.start();
- } catch (Exception e) {
- logger.warning("Unable to start bundle " + bundle.getSymbolicName() + ". " + e);
- }
- }
- }
+        for (Bundle bundle : installed) {
+            try {
+                bundle.start();
+            } catch (Exception e) {
+                logger.warning("Unable to start bundle " + bundle.getSymbolicName() + ". " + e);
+            }
+        }
+    }
 
- public void stop(BundleContext context) throws Exception {
- }
+    public void stop(BundleContext context) throws Exception {
+    }
 
- private List<URL> findBundles() throws Exception {
- List<URL> list = new ArrayList<URL>();
+    private List<URL> findBundles() throws Exception {
+        List<URL> list = new ArrayList<URL>();
 
- Set paths = this.servletContext.getResourcePaths("/WEB-INF/bundles/");
- logger.info("List of entries in /WEB-INF/bundles/ " + paths);
- for (Object o : paths) {
- String name = (String)o;
- if (name.endsWith(".jar")) {
- URL url = this.servletContext.getResource(name);
- if (url != null) {
- list.add(url);
- }
- }
- }
+        Set paths = this.servletContext.getResourcePaths("/WEB-INF/bundles/");
+        logger.info("List of entries in /WEB-INF/bundles/ " + paths);
+        for (Object o : paths) {
+            String name = (String)o;
+            if (name.endsWith(".jar")) {
+                URL url = this.servletContext.getResource(name);
+                if (url != null) {
+                    list.add(url);
+                }
+            }
+        }
 
- return list;
- }
-}\[/java\]
+        return list;
+    }
+}
+```
 
 Now we need proxy servlet and proxy startup listener. First receives calls from browser and forward its to OSGi servlets, second delivers some servlet events from war to OSGi. The setup is really simple:
-\[xml\]<?xml version="1.0" encoding="ISO-8859-1"?>
+```xml
+<?xml version="1.0" encoding="ISO-8859-1"?>
 <web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xsi:schemaLocation="
- http://java.sun.com/xml/ns/javaee
- http://java.sun.com/xml/ns/javaee/web-app\_2\_5.xsd"
- version="2.5">
+    xsi:schemaLocation="
+        http://java.sun.com/xml/ns/javaee
+        http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+    version="2.5">
 
- <display-name>Aries WebApp</display-name>
+    <display-name>Aries WebApp</display-name>
 
- <listener>
- <listener-class>org.code\_house.workshop.aries.war.StartupListener</listener-class><!-- This part starts the Framework -->
- </listener>
+    <listener>
+        <listener-class>org.code_house.workshop.aries.war.StartupListener</listener-class><!-- This part starts the Framework -->
+    </listener>
+    
+    <listener>
+        <listener-class>org.apache.felix.http.proxy.ProxyListener</listener-class>
+    </listener>
 
- <listener>
- <listener-class>org.apache.felix.http.proxy.ProxyListener</listener-class>
- </listener>
+    <servlet>
+        <servlet-name>proxy</servlet-name>
+        <servlet-class>org.apache.felix.http.proxy.ProxyServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
 
- <servlet>
- <servlet-name>proxy</servlet-name>
- <servlet-class>org.apache.felix.http.proxy.ProxyServlet</servlet-class>
- <load-on-startup>1</load-on-startup>
- </servlet>
+    <servlet-mapping>
+        <servlet-name>proxy</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
 
- <servlet-mapping>
- <servlet-name>proxy</servlet-name>
- <url-pattern>/\*</url-pattern>
- </servlet-mapping>
-
-</web-app>\[/xml\]
+</web-app>
+```
 
 Ok, having the framework running is great, but now we would like to use Felix WebConsole to inspect environment we run. For that we need another important improvement. If you have done some webapps you know that servlet api should not be included in WARs. We need respect same rule in this case. We can not install servlet api as OSGi bundle because ProxyServlet uses WAR classloader, it is not part of any bundle. Because of that we need configure framework to load javax.servlet and javax.servlet.http packages from parent classloader. Just remember to add them in **org.osgi.framework.system.packages** configuration property.
 From OSGi point of view we need an bridge which registers HttpService. Bot OSGi part and proxy part are linked. To get everything running you need both of them.

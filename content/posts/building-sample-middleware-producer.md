@@ -21,37 +21,37 @@ Let check messaging code we have:
 // import declarations ...
 public class JmsMessageSender implements MessageSender, InitializingBean {
 
- private ConnectionFactory connectionFactory;
- private Session session;
- private final String destination;
- private MessageProducer producer;
+    private ConnectionFactory connectionFactory;
+    private Session session;
+    private final String destination;
+    private MessageProducer producer;
 
- public JmsMessageSender(String destination) {
- this.destination = destination;
- }
+    public JmsMessageSender(String destination) {
+        this.destination = destination;
+    }
 
- public void sendMessage(String message, Map<String, Object> headers)
- throws Exception {
+    public void sendMessage(String message, Map<String, Object> headers)
+            throws Exception {
 
- if (session == null || producer == null) {
- afterPropertiesSet();
- }
+        if (session == null || producer == null) {
+            afterPropertiesSet();
+        }
 
- TextMessage jmsMsg = session.createTextMessage(message);
- for (String header : headers.keySet()) {
- jmsMsg.setObjectProperty(header, headers.get(header));
- }
- producer.send(jmsMsg);
- }
+        TextMessage jmsMsg = session.createTextMessage(message);
+        for (String header : headers.keySet()) {
+            jmsMsg.setObjectProperty(header, headers.get(header));
+        }
+        producer.send(jmsMsg);
+    }
 
- public void afterPropertiesSet() throws Exception {
- Connection connection = connectionFactory.createConnection();
- session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
- Queue queue = session.createQueue(destination);
- producer = session.createProducer(queue);
- }
+    public void afterPropertiesSet() throws Exception {
+        Connection connection = connectionFactory.createConnection();
+        session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+        Queue queue = session.createQueue(destination);
+        producer = session.createProducer(queue);
+    }
 
- // not important
+    // not important
 }
 ```
 First of all we inject connectionFactory using Spring configuration file. In line 20 we create text message, because we sending messages with String as content. Line 22 sets headers for message and finally sends it in line 24 using message producer created in lines 28-31. If we'll look closer these lines we'll see standard initalization code automatically called during bean creation by Spring. In line 29 we create session without transaction support and create producer to send messages. Connection factory is configured in XML with properties file to extract informations like broker url username and password.
@@ -59,35 +59,35 @@ First of all we inject connectionFactory using Spring configuration file. In lin
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
- <bean id="view" class="org.code_house.mom.producer.ProducerWindow">
- <property name="title" value="Bank Agent APP" />
- </bean>
+    <bean id="view" class="org.code_house.mom.producer.ProducerWindow">
+        <property name="title" value="Bank Agent APP" />
+    </bean>
 
- <bean id="controller" class="org.code_house.mom.producer.ProducerController">
- <constructor-arg ref="view" />
- <property name="messageSender">
- <bean class="org.code_house.mom.producer.JmsMessageSender">
- <constructor-arg value="MOM.Incoming" />
- <property name="connectionFactory" ref="connectionFactory" />
- </bean>
- </property>
- <property name="mapper" ref="mapper" />
- </bean>
+    <bean id="controller" class="org.code_house.mom.producer.ProducerController">
+        <constructor-arg ref="view" />
+        <property name="messageSender">
+            <bean class="org.code_house.mom.producer.JmsMessageSender">
+                <constructor-arg value="MOM.Incoming" />
+                <property name="connectionFactory" ref="connectionFactory" />
+            </bean>
+        </property>
+        <property name="mapper" ref="mapper" />
+    </bean>
 
- <bean id="connectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
- <property name="brokerURL" value="${url}" />
- <property name="userName" value="${user}" />
- <property name="password" value="${pass}" />
- </bean>
+    <bean id="connectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="${url}" />
+        <property name="userName" value="${user}" />
+        <property name="password" value="${pass}" />
+    </bean>
 
- <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
- <property name="location" value="classpath:activemq.properties" />
- </bean>
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:activemq.properties" />
+    </bean>
 
- <bean id="mapper" class="org.codehaus.jackson.map.ObjectMapper" />
+    <bean id="mapper" class="org.codehaus.jackson.map.ObjectMapper" />
 
 </beans>
 ```

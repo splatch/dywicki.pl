@@ -37,7 +37,7 @@ Once change is saved we need to reload firewall rules through `pfctl -f /etc/pf.
 
 With above changes, it is finally possible to retrieve symbol list through ADS. :-) Please note fancy ASCII dump of exchanged payload. ;-)
 
-```
+```bash
 ╔═AdsTableSizes═══════════════════════════════════════════════════════════════════════════════════╗
 ║╔═symbolCount═╗╔═symbolLength══╗╔═dataTypeCount╗╔═dataTypeLength═╗╔═extraCount════╗╔═extraLength╗║
 ║║0x00000013 19║║0x00000850 2128║║0x00000037 55 ║║0x00002c18 11288║║0x000007d0 2000║║0x00000000 0║║

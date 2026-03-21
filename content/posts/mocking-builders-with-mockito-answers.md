@@ -31,7 +31,7 @@ That's the order of actions we gonna do:
 
 I come to following shape of code which covers the above flow. That's how the mocking preparation looks a like:
 
-```
+```java
 BridgeBuilder bridgeBuilder = mock(BridgeBuilder.class, "bridgeBuilderMock");
 Bridge bridge = mock(Bridge.class, "bridgeMock");
 builder(
@@ -49,7 +49,7 @@ when(bridgeBuilder.build()).thenReturn(bridge);
 
 As you can see it is relatively simple. It is a short notation to say that we return a builder (line 4). Additionally for each call on this mock (line 5) we will setup a getter call (line 6) using a MappedReturnValue function (line 7). Lets take a look on `builder` method.
 
-```
+```java
 private <T, X> void builder(T mock, Supplier<T> builderCall, Supplier<X> getterCall, Function<InvocationOnMock, X> returnValue) {
     MapBuilderToMock<T, X> answer = new MapBuilderToMock<>(mock, getterCall, returnValue);
     when(builderCall.get()).thenAnswer(answer);
@@ -62,7 +62,7 @@ I will just note here that answer implementation is superior to `thenReturn` cau
 
 Lets take a look on the `MapBuilderToMock` answer:
 
-```
+```java
 static class MapBuilderToMock<T, X> implements Answer<T> {
     private final T builder;
     private final Supplier<X> getter;
@@ -84,7 +84,7 @@ static class MapBuilderToMock<T, X> implements Answer<T> {
 
 What is really important is line 13, where we have another lambda call which transforms builder invocation to return value of a lambda. Very short, initial approach can be achieved by this:
 
-```
+```java
 when(getter.get()).thenReturn(invocation.getArgument(0));
 ```
 
@@ -92,7 +92,7 @@ when(getter.get()).thenReturn(invocation.getArgument(0));
 
 After explanation - we can see whole code. Additional classes makes it longer than necessary, however my intention here is keeping these blocks separate in order to increase readability.
 
-```
+```java
 @Test
 public void testDifferentHandlerFactoriesForBridgeAndThing() {
     BridgeBuilder bridgeBuilder = mock(BridgeBuilder.class, "bridgeBuilder");

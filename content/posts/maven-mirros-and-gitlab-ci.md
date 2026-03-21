@@ -21,7 +21,7 @@ To let you understand my motivation, I will briefly describe a case. I was tryin
 
 This means that even if you have same proxy server instance using same credentials, you need to declare mirrors with different ID. Take a look on below example:
 
-```
+```xml
 <?xml version="1.0" encoding="utf-8" ?>
 <settings xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd"
   xmlns="http://maven.apache.org/SETTINGS/1.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -51,7 +51,7 @@ This means that even if you have same proxy server instance using same credentia
 
 As you can see, there are two mirrors using same id. In effect Maven will use just one of them. You can inspect this with Maven help plugin:
 
-```
+```bash
 MAVEN_SERVER_ID=proxy \
 MAVEN_REPO_USER=test \
 MAVEN_REPO_PASS=secret \
@@ -64,7 +64,7 @@ OPENHAB_PROXY_URL=http://proxy/openhab \
 
 The result, at least till this morning for me, is quite surprising. The openhab mirror is lost, see below output!
 
-```
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ====================================================================== -->
 <!--                                                                        -->
@@ -105,7 +105,7 @@ The result, at least till this morning for me, is quite surprising. The openhab 
 
 In order to get whole thing working you need to declare distinct server identifiers:
 
-```
+```xml
 <?xml version="1.0" encoding="utf-8" ?>
 <settings xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd"
   xmlns="http://maven.apache.org/SETTINGS/1.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">

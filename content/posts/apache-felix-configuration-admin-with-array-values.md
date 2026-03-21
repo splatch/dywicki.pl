@@ -36,26 +36,26 @@ Internally config admin is also storing information about value type. By default
 - B = Boolean
 
 Small prefix letters represents simple type. If you want to construct array of primitive ints then configuration syntax is following:
-\[source\]
+```
 property=i\["1", "2", "3"\]
-\[/source\]
+```
 
 ### Small note for Karaf users
 
 By default Karaf etc/ directory uses \*.cfg suffix as fileinstall filter which means that this feature of Felix Configuration Admin will not work for you. You have two workarounds.
 Edit **etc/config.properties** and navigate to first line shown in listing and replace it with second:
-\[source\]
+```
 felix.fileinstall.filter = .\*\\\.cfg
 felix.fileinstall.filter = .\*\\\.(cfg\|config)
-\[/source\]
+```
 
 Create new file **org.apache.felix.fileinstall-config.cfg** with following contents:
-\[source\]
+```
 felix.fileinstall.dir = ${karaf.base}/config
 felix.fileinstall.tmpdir = ${karaf.data}/generated-bundles
 felix.fileinstall.poll = 1000
 felix.fileinstall.filter = .\*\\\.(cfg\|config)
-\[/source\]
+```
 
 ### Quick summary
 
