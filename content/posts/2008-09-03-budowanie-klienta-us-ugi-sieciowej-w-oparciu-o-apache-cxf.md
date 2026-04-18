@@ -1,15 +1,17 @@
 ---
 author: splatch
 category:
-  - uncategorized
-date: "2008-09-03T09:28:27+00:00"
+  - cxf
+  - framework
+  - java
+date: "2008-09-03T07:28:27+00:00"
 guid: http://blog.dywicki.pl/?p=223
 summary: |-
   W nawiązaniu do [poprzedniej noty o CXFie](http://blog.dywicki.pl/2008/07/23/budowanie-uslugi-sieciowej-w-oparciu-o-apache-cxf/), którą napisałem jakiś czas temu, gonię aby uzupełnić brak konfiguracji klienta. Sam proces jest bardzo zbliżony do tworzenia klienta w oparciu o XFire. Nie jest wymagana duża ilość kodu Javy, a w zasadzie tylko dwa pliki XML (client.xml, _myservice.xml_).
 
   Pierwszy z nich odpowiada za wczytanie wymaganych rozszerzeń CXFa oraz definicję bazowej konfiguracji fabryki z interceptorami. W interceptorach możemy skonfigurować logowanie, obsługę załączników czy standardów WS-Security etc. Wszystkie te ustawienia będą dziedziczone, a fabryki docelowych usług będą dodawać tylko adres, do odpytywania. Na koniec bean klienta będzie miał określony **autowire** by nie przekazywać mu wszystkich własności.
 title: Budowanie klienta usługi sieciowej w oparciu o Apache CXF
-url: /2008/09/budowanie-klienta-uslugi-sieciowej-w-oparciu-o-apache-cxf/
+url: /2008/09/03/budowanie-klienta-uslugi-sieciowej-w-oparciu-o-apache-cxf/
 
 ---
 W nawiązaniu do [poprzedniej noty o CXFie](http://blog.dywicki.pl/2008/07/23/budowanie-uslugi-sieciowej-w-oparciu-o-apache-cxf/), którą napisałem jakiś czas temu, gonię aby uzupełnić brak konfiguracji klienta. Sam proces jest bardzo zbliżony do tworzenia klienta w oparciu o XFire. Nie jest wymagana duża ilość kodu Javy, a w zasadzie tylko dwa pliki XML (client.xml, _myservice.xml_).

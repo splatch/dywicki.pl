@@ -1,15 +1,18 @@
 ---
 author: splatch
 category:
-  - uncategorized
-date: "2008-07-23T08:27:55+00:00"
+  - cxf
+  - java
+  - jaxb
+  - xml
+date: "2008-07-23T06:27:55+00:00"
 guid: http://blog.dywicki.pl/?p=219
 summary: |-
   Od jakiegoś czasu w pracy do tworzenia usług sieciowych korzystam z [Apache CXF](http://cxf.apache.org). Jako że biblioteka jest stosunkowo nowa i nie najlepiej udokumentowana postanowiłem przedstawić na blogu jak wygląda proces tworzenia.
 
   CXF jest połączeniem kilku bibliotek - [YOKO](http://cwiki.apache.org/YOKO/), [Celtixa](http://celtix.objectweb.org/) oraz [XFire](http://xfire.codehaus.org/). Każda z nich wcześniej realizowała pewien fragment obecnej funkcjonalności CXF - YOKO obsługuje Corbę a XFire usługi sieciowe. Obecne CXF jest gotowy do używania "produkcyjnego", ponieważ niedawno wyszedł z fazy inkubacji. :)
 title: Budowanie usługi sieciowej w oparciu o Apache CXF
-url: /2008/07/budowanie-uslugi-sieciowej-w-oparciu-o-apache-cxf/
+url: /2008/07/23/budowanie-uslugi-sieciowej-w-oparciu-o-apache-cxf/
 
 ---
 Od jakiegoś czasu w pracy do tworzenia usług sieciowych korzystam z [Apache CXF](http://cxf.apache.org). Jako że biblioteka jest stosunkowo nowa i nie najlepiej udokumentowana postanowiłem przedstawić na blogu jak wygląda proces tworzenia.

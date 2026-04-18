@@ -1,0 +1,31 @@
+---
+author: splatch
+category:
+  - wiadomości
+date: "2006-11-22T16:26:26+00:00"
+guid: http://blog.dywicki.pl/2006/11/22/powrot/
+title: Powrót
+url: /2006/11/22/powrot/
+
+---
+No.. kolejny powrót. :) Dzięki serdeczne wszystkim za pomoc w odzyskaniu backupu, mam nadzieję, że to był ostatni raz, kiedy doszło do takiej sytuacji.
+Na deser kawałek kodu, który kiedyś wyprodukowałem mylnie przekonany, że będzie szybszy niż explode...
+\[php\]< ?php
+/\\*\\*
+\\* Funkcja zwracajaca prawa i lewa strone ciagu z kropka
+\\*
+\\* @param string $string ciag z kropka
+\\* @return array lewa strona, prawa strona kropki
+\\* @author Lukasz Dywicki
+\*\*/
+function explodedot($string) {
+$dotpos = strpos($string, '.');
+if($dotpos !== false) {
+return array(
+substr($string, 0, $dotpos),
+substr($string, $dotpos+1)
+);
+}
+return array($string, $string);
+}
+?>\[/php\]

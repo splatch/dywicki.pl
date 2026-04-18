@@ -1,12 +1,16 @@
 ---
 author: splatch
 category:
-  - uncategorized
-date: "2008-06-22T20:23:35+00:00"
+  - esb
+  - java
+  - moje-publikacje
+  - servicemix
+  - xml
+date: "2008-06-22T18:23:35+00:00"
 guid: http://blog.dywicki.pl/?p=215
 summary: Jakiś czas temu, jeszcze podczas pracy w poprzedniej firmie przypadło mi zadanie podpięcia się pod magistralę usług opartą o [Apache Service Mix](http://servicemix.apache.org) (SMX). Był to wówczas dla mnie temat zupełnie nowy, ba nawet nie wiedziałem z czym to się je. :) Koniec końców jednak podpięcie pod ESB (Enterprises Service Bus) nie było w ogóle trudne. Po jakimś czasie i drobnych przetasowaniach na płaszczyźnie zawodowej zająłem się SMX-em nie jako klient magistrali a osoba implementująca usługi na szynie a ten wpis jest drobną przeróbką prezentacji, którą przygotowałem w pracy.
 title: Apache ServiceMix, Open Source ESB
-url: /2008/06/apache-servicemix-open-source-es/
+url: /2008/06/22/apache-servicemix-open-source-es/
 
 ---
 Jakiś czas temu, jeszcze podczas pracy w poprzedniej firmie przypadło mi zadanie podpięcia się pod magistralę usług opartą o [Apache Service Mix](http://servicemix.apache.org) (SMX). Był to wówczas dla mnie temat zupełnie nowy, ba nawet nie wiedziałem z czym to się je. :) Koniec końców jednak podpięcie pod ESB (Enterprises Service Bus) nie było w ogóle trudne. Po jakimś czasie i drobnych przetasowaniach na płaszczyźnie zawodowej zająłem się SMX-em nie jako klient magistrali a osoba implementująca usługi na szynie a ten wpis jest drobną przeróbką prezentacji, którą przygotowałem w pracy.
@@ -46,8 +50,11 @@ Otóż, [JBI](http://jcp.org/en/jsr/detail?id=208) w rozwinięciu oznacza Java B
 - Normalized Message Router – jest to serce rozwiązania opartego o JBI, ponieważ w nim są transportowane komunikaty. To on zapewnia przepływ informacji z komponentów bindujących do silników.
 - Message Exchange Patterns – w oparciu o definicję dla SOAP JBI przewiduje następujące typy komunikatów:
   1. In-Only – tylko wejście, usługa nie zwraca żadnej odpowiedzi
+
   1. Rebust In-Only – zwrócony zostanie status po obsłudze zapytania bądź wyjątek.
+
   1. In-Out – standardowa obsługa wejście-wyjście.
+
   1. In Optional-Out – wejście z niewiążącą (nieobowiązkową) odpowiedzią.
 
 Dostępnych jest kilka implementacji JBI:
@@ -66,8 +73,9 @@ Dostępnych jest kilka implementacji JBI:
 Wewnątrz Service Mix jest spięciem kilku potężnych projektów, rozwijanych od dłuższego czasu, które zdobyły już renomę i popularność. Między innymi można wyróżnić:
 
 - Pierwszy z tych projektów to [Spring Framework](http://springframework.org/), rozwijany od bodajże 2000 roku, z powodzeniem rywalizujący z architekturami opartymi o EJB. Spring jest nie tylko mechanizmem konfiguracyjnym ale również zbiorem bardzo dobrych komponentów umożliwiających szereg operacji (bazy danych, JMS, przetwarzanie wsadowe, Web Services etc).
-- Drugi, bardzo ważny projekt to [Active MQ](http://activemq.apache.org/). Największa i najpopularniejsza otwarta implementacja standardu JMS. Jest on używany wewnątrz Service Mix-a jako transporter komunikatów w Normalized Message Router jak i do obsługi końcówek JMS.
-  \- Wymieniony nieco niżej pod-projekt Active MQ to [Camel](http://activemq.apache.org/camel/). Jest to szkielet przeznaczony do tworzenia reguł routingu. Wspiera różnorakie transporty (HTTP, JMS, JBI, MS MQ itp.).
+- Drugi, bardzo ważny projekt to [Active MQ](http://activemq.apache.org/). Największa i najpopularniejsza otwarta implementacja standardu JMS. Jest on używany wewnątrz Service Mix-a jako transporter komunikatów w Normalized Message Router jak i do obsługi końcówek JMS.  
+
+   \- Wymieniony nieco niżej pod-projekt Active MQ to [Camel](http://activemq.apache.org/camel/). Jest to szkielet przeznaczony do tworzenia reguł routingu. Wspiera różnorakie transporty (HTTP, JMS, JBI, MS MQ itp.).
 - [XBean](http://geronimo.apache.org/xbean/) jest fragmentem projektu Apache Geronimo (serwer aplikacyjny ze stajni Apache) przeznaczonym do tworzenia konfiguracji i zarządzania komponentami. Jest zbudowany w oparciu o Springa.
 - [Apache CXF](http://cxf.apache.org/) jest stosunkowo nowym projektem, który jest używany poprzez Service Mix w celu obsługi zapytań SOAP (chociaż możliwe jest użycie innego komponentu).
 - [Apache ODE](http://ode.apache.org/) jest silnikiem reguł biznesowych w oparciu o WS-BPEL.
@@ -85,8 +93,10 @@ Wyżej wymienione projekty są używane w Service Mix w celu uzyskania typowych 
 - Obsługa protokołu [XMPP](http://servicemix.apache.org/servicemix-xmpp.html) pozwala na łatwą integrację z komunikatorami zbudowanymi w oparciu o Jabbera.
 - Dostęp do poczty przy pomocy modułu [servicemix-mail](http://servicemix.apache.org/servicemix-mail.html)
 - Komponenty programowe:
+
   - Dają [możliwość dopisania](http://servicemix.apache.org/servicemix-bean.html) własnych "endpointów", czyli implementacji docelowych usług bądź pośredników.
   - Dodatkowe funkcjonalności (cache, rss, walidacja)
+
 - [Języki skryptowe](http://servicemix.apache.org/servicemix-scripting.html) (min [Groovy](http://groovy.codehaus.org/))
 
 ### ESB – dlaczego Open Source
