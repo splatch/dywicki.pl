@@ -1,0 +1,250 @@
+{
+  "talks": [
+    {
+      "title": "OSEC Forum 2024 - Migration from RH SSO to RHBK",
+      "slug": "osec-forum-2024-migration-from-rh-sso-to-rhbk",
+      "date": "2024-06-11",
+      "draft": false,
+      "event": "OSEC Forum 2024",
+      "event_url": "https://osecforum.pl/edycja2024/",
+      "location": "Warsaw, Poland",
+      "summary": "Presentation outlining major shift in internal architecture of Keycloak project and underlying Red Hat product offered on top of it.",
+      "description": "Presentation outlining major shift in internal architecture of Keycloak project and underlying Red Hat product offered on top of it.",
+      "slides_url": "",
+      "video_url": "https://www.youtube.com/watch?v=c4HD4awuweA",
+      "slides_url": "/talks/2024/Migracja z RH SSO do RHBK.pdf",
+      "tags": ["keycloak", "identity", "security"],
+      "cover": {
+        "image": "https://i.ytimg.com/vi/c4HD4awuweA/hqdefault.jpg",
+        "alt": "Video thumbnail for OSEC Forum 2024 - Migration from RH SSO to RHBK"
+      }
+    },
+    {
+      "title": "OSEC Forum 2023 - Keycloak in less common scenarios",
+      "slug": "osec-forum-2023-keycloak-in-less-common-scenarios",
+      "date": "2023-06-20",
+      "draft": false,
+      "event": "OSEC Forum 2023",
+      "event_url": "https://osecforum.pl/edycja-2023/",
+      "location": "Warsaw, Poland",
+      "summary": "A quick intro to OAuth/OpenID Connect and supported authorization flows such as Device Flow.",
+      "description": "A quick intro to OAuth/OpenID Connect and supported authorization flows such as Device Flow.",
+      "slides_url": "/talks/2023/Keycloak, less common scenarios.pdf",
+      "video_url": "https://www.youtube.com/watch?v=MiKHPr50sIU",
+      "tags": ["keycloak", "oauth", "openid-connect", "security"],
+      "cover": {
+        "image": "https://i.ytimg.com/vi/MiKHPr50sIU/hqdefault.jpg",
+        "alt": "Video thumbnail for OSEC Forum 2023 - Keycloak in less common scenarios"
+      }
+    },
+    {
+      "title": "ApacheCon Home@2021: Unified fieldbus API with Apache PLC4X",
+      "slug": "apachecon-home-2021-unified-fieldbus-api-with-apache-plc4x",
+      "date": "2021-09-23",
+      "draft": false,
+      "event": "ApacheCon Home 2021",
+      "event_url": "https://apachecon.com/acah2021/tracks/iot.html",
+      "location": "Virtual",
+      "summary": "An introduction to fieldbus technologies and how Apache PLC4X provides a unified API for industrial protocols such as Profinet, CANopen, and Ethernet/IP.",
+      "description": "A talk about fieldbus technologies and how Apache PLC4X provides a unified API to access industrial communication protocols.",
+      "slides_url": "",
+      "video_url": "https://www.youtube.com/watch?v=FF0CmYnuE_g",
+      "tags": ["apache", "plc4x", "industrial-iot", "fieldbus"],
+      "cover": {
+        "image": "https://i.ytimg.com/vi/FF0CmYnuE_g/hqdefault.jpg",
+        "alt": "Video thumbnail for ApacheCon Home 2021 talk about Apache PLC4X"
+      }
+    },
+    {
+      "title": "ApacheCon Asia@2021: Apache PLC4X and CANopen",
+      "slug": "apachecon-asia-2021-apache-plc4x-and-canopen",
+      "date": "2021-08-07",
+      "draft": false,
+      "event": "ApacheCon Asia 2021",
+      "event_url": "https://apachecon.com/acasia2021/sessions/1063.html",
+      "location": "Virtual",
+      "summary": "Introduction to CAN API and CANopen standard and its implementation within Apache PLC4X project. Presentation prepared during pandemic for ApacheCon Asia 2021.",
+      "description": "Introduction to CAN API and the CANopen standard with an implementation perspective through Apache PLC4X.",
+      "slides_url": "",
+      "video_url": "https://www.youtube.com/watch?v=BcG7DUIEQBk",
+      "tags": ["apache", "plc4x", "canopen", "automation"],
+      "cover": {
+        "image": "https://i.ytimg.com/vi/BcG7DUIEQBk/hqdefault.jpg",
+        "alt": "Video thumbnail for ApacheCon Asia 2021 talk about Apache PLC4X and CANopen"
+      }
+    },
+    {
+      "title": "EclipseCon@2018: Presentation - Developer productivity with Maven+OSGi",
+      "slug": "eclipsecon-2018-developer-productivity-with-maven-osgi",
+      "date": "2018-10-29",
+      "draft": false,
+      "event": "EclipseCon 2018",
+      "event_url": "https://www.openhab.org/blog/2018-10-29-smart-home-day-eclipsecon-europe-2018.html",
+      "location": "Ludwigsburg, Germany",
+      "summary": "During this short presentation I will revisit existing mechanisms and approach towards OSGi and JEE development. I will show how many manual steps can be avoided and how to maintain project in effective manner. I will try to find a balance between execution environment requirements and programmer happines at same time.",
+      "description": "A presentation about reducing manual work in OSGi and JEE development and improving developer productivity with Maven.",
+      "slides_url": "/talks/2018/OSGi with Maven.pdf",
+      "video_url": "https://www.youtube.com/watch?v=qNmBZjJcups",
+      "tags": ["maven", "osgi", "java", "developer-productivity"],
+      "cover": {
+        "image": "https://i.ytimg.com/vi/qNmBZjJcups/hqdefault.jpg",
+        "alt": "Video thumbnail for EclipseCon 2018 talk about Maven and OSGi"
+      }
+    },
+    {
+      "title": "EclipseCon@2018: Panel Discussion - Build Tooling for Eclipse SmartHome",
+      "slug": "eclipsecon-2018-build-tooling-for-eclipse-smarthome",
+      "date": "2018-10-29",
+      "draft": false,
+      "event": "EclipseCon 2018",
+      "event_url": "https://www.openhab.org/blog/2018-10-29-smart-home-day-eclipsecon-europe-2018.html",
+      "location": "Ludwigsburg, Germany",
+      "summary": "A discussion within Eclipse SmartHome project involving project leader as well as recognized personalities within OSGi universe on how to approach problem of making developer life easier.",
+      "description": "A panel discussion on build tooling choices and developer experience in the Eclipse SmartHome ecosystem.",
+      "slides_url": "",
+      "video_url": "https://www.youtube.com/watch?v=92szjGgt0SY",
+      "tags": ["eclipse-smarthome", "build-tooling", "osgi", "panel"],
+      "cover": {
+        "image": "https://i.ytimg.com/vi/92szjGgt0SY/hqdefault.jpg",
+        "alt": "Video thumbnail for EclipseCon 2018 panel discussion about build tooling"
+      }
+    },
+    {
+      "title": "EclipseCon@2018: SmartHome Day - OSGi+Plain Old Maven",
+      "slug": "eclipsecon-2018-smarthome-day-osgi-plain-old-maven",
+      "date": "2018-10-29",
+      "draft": false,
+      "event": "EclipseCon 2018 SmartHome Day",
+      "event_url": "https://www.openhab.org/blog/2018-10-29-smart-home-day-eclipsecon-europe-2018.html",
+      "location": "Ludwigsburg, Germany",
+      "summary": "A brief thought experiment exploring why OSGi is often not a preferred choice and how to make it more approachable for everyday Java developers. The presentation is based on proof of concept build for Eclipse SmartHome—a large OSGi-based project—using Apache Maven. With no use of Eclipse Tycho. Demonstration of a simpler and more developer-friendly approach.",
+      "description": "A talk exploring a simpler Maven-based approach to working with OSGi in Eclipse SmartHome without relying on Tycho.",
+      "slides_url": "/talks/2018/OSGi + Plain Old Maven.pdf",
+      "video_url": "https://www.youtube.com/watch?v=WBxCHxi1pM8",
+      "tags": ["osgi", "maven", "eclipse-smarthome", "java"],
+      "cover": {
+        "image": "https://i.ytimg.com/vi/WBxCHxi1pM8/hqdefault.jpg",
+        "alt": "Video thumbnail for EclipseCon 2018 SmartHome Day talk about OSGi and Maven"
+      }
+    },
+    {
+      "title": "ApacheCon NA 2014 - Apache Karaf in real life",
+      "slug": "apachecon-na-2014-apache-karaf-in-real-life",
+      "date": "2014-04-07",
+      "draft": false,
+      "event": "ApacheCon NA 2014",
+      "event_url": "https://www.apachecon.com/history.html",
+      "location": "Denver, CO, USA",
+      "summary": "A talk about using Apache Karaf in real-world solutions, covering modularity, extensibility, OSGi, and lessons learned from production use.",
+      "description": "Presentation about Apache Karaf in practical use, including OSGi fundamentals, extensibility patterns, Karaf-based solution design, and production lessons learned.",
+      "slides_url": "/talks/2014/apache karaf in real life.pdf",
+      "video_url": "https://www.youtube.com/watch?v=PBgykrgE3qY",
+      "tags": [
+        "apache",
+        "karaf",
+        "osgi",
+        "middleware",
+        "java"
+      ],
+      "cover": {
+        "image": "https://i.ytimg.com/vi/PBgykrgE3qY/hqdefault.jpg",
+        "alt": "Video thumbnail for ApacheCon NA 2014 talk Apache Karaf in real life"
+      }
+    },
+    {
+      "title": "Developer Conference 2013 - Application integration with SwitchYard",
+      "slug": "developer-conference-2013-application-integration-with-switchyard",
+      "date": "2013-02-23",
+      "draft": false,
+      "event": "Developer Conference 2013",
+      "event_url": "https://developerconference2013.sched.com/directory/speakers/descriptions/1",
+      "location": "",
+      "summary": "Talk about application integration with SwitchYard.",
+      "description": "Talk listed on the Developer Conference 2013 speaker directory for Łukasz Dywicki.",
+      "slides_url": "",
+      "video_url": "",
+      "tags": [
+        "switchyard",
+        "integration",
+        "java",
+        "middleware"
+      ],
+      "cover": {
+        "image": "https://switchyard.jboss.org/mainColumnParagraphs/00/imageBinary/switchyard_icon_256px.png",
+        "alt": "SwitchYard logo"
+      }
+    },
+    {
+      "title": "ApacheCon Europe 2012 - When Camel meets CDI",
+      "slug": "apachecon-europe-2012-when-camel-meets-cdi",
+      "date": "2012-11-08",
+      "draft": false,
+      "event": "ApacheCon Europe 2012",
+      "event_url": "https://archive.apachecon.com/eu2012/schedule/presentation/87/",
+      "location": "Sinsheim, Germany",
+      "summary": "A talk about using CDI with Apache Camel in Java EE and Java SE environments, covering dependency injection basics, extensions, and Camel integration without XML.",
+      "description": "Presentation on how CDI and Apache Camel work together, including CDI basics, custom extensions, Camel integration with dependency injection containers, and running a simple Camel application on an application server without XML.",
+      "slides_url": "/talks/2012/Camel meets cdi.pdf",
+      "video_url": "",
+      "tags": ["apache", "camel", "cdi", "java", "middleware"],
+      "cover": {
+        "image": "",
+        "alt": ""
+      }
+    },
+    {
+      "title": "WJUG 069 – Spring Dynamic Modules, Blueprint, OSGi – deklaratywne",
+      "slug": "wjug-069-spring-dynamic-modules-blueprint-osgi-deklaratywne",
+      "date": "2010-06-15",
+      "draft": false,
+      "event": "Warsaw Java User Group",
+      "event_url": "",
+      "location": "Warsaw, Poland",
+      "summary": "",
+      "description": "",
+      "slides_url": "",
+      "video_url": "",
+      "tags": ["wjug", "spring", "blueprint", "osgi", "java"],
+      "cover": {
+        "image": "",
+        "alt": ""
+      }
+    },
+    {
+      "title": "WJUG 062 – Mule ESB vs. Apache ServiceMix – Tomasz Nurkiewicz, Łukasz Dywicki",
+      "slug": "wjug-062-mule-esb-vs-apache-servicemix",
+      "date": "2010-02-23",
+      "draft": false,
+      "event": "Warsaw Java User Group",
+      "event_url": "",
+      "location": "Warsaw, Poland",
+      "summary": "",
+      "description": "",
+      "slides_url": "",
+      "video_url": "",
+      "tags": ["wjug", "esb", "servicemix", "mule", "java"],
+      "cover": {
+        "image": "",
+        "alt": ""
+      }
+    },
+    {
+      "title": "WJUG 011 – Tworzenie aplikacji graficznych z SWT i JFace",
+      "slug": "wjug-011-tworzenie-aplikacji-graficznych-z-swt-i-jface",
+      "date": "2007-06-05",
+      "draft": false,
+      "event": "Warsaw Java User Group",
+      "event_url": "",
+      "location": "Warsaw, Poland",
+      "summary": "",
+      "description": "",
+      "slides_url": "",
+      "video_url": "",
+      "tags": ["wjug", "swt", "jface", "java"],
+      "cover": {
+        "image": "",
+        "alt": ""
+      }
+    }
+  ]
+}

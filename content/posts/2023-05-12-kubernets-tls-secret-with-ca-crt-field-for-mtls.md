@@ -4,8 +4,8 @@ category:
   - kubectl
   - kubernetes
 cover:
-  alt: Nginx logo
-  image: /wp-content/uploads/2020/11/nginx-logo.png
+  alt: Computer screen displaying code and terminal output
+  image: https://images.unsplash.com/photo-1774901128283-64c62117216a?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=80&w=1600
 date: "2023-05-12T08:39:00+00:00"
 guid: http://dywicki.pl/?p=1020
 summary: By default kubernetes tls secret must consist two fields a `tls.key` and `tls.crt`. It works perfectly fine in most of the cases, but not when we need mutual tls which is handled by ingress-nginx. This kind of ingress requires a secret with a "ca.crt" field to validate client certs. Obviously it tricks a kubectl which can't append more than standard.

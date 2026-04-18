@@ -3,6 +3,9 @@ author: splatch
 category:
   - kubectl
   - kubernetes
+cover:
+  alt: Computer screen showing code and terminal output
+  image: https://images.unsplash.com/photo-1774901128276-1eab48f1fb9c?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=80&w=1600
 date: "2023-05-03T07:41:00+00:00"
 guid: http://dywicki.pl/?p=1015
 summary: I believe that I am not only one who needed to get a secret value out of kubernetes. Usual advice focus on use of `kubectl` with json output and/or jsonpath. Problem is - the `kubectl` jsonpath is limited thus result needs to be scanned further by jq. It works, but jq is not part of everyone's working environment.

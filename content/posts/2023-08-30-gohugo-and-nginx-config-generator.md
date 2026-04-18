@@ -2,6 +2,9 @@
 author: splatch
 category:
   - web
+cover:
+  alt: Computer code displayed on a screen
+  image: https://images.unsplash.com/photo-1753998943413-8cba1b923c0e?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=80&w=1600
 date: "2023-08-30T23:04:29+00:00"
 guid: http://dywicki.pl/?p=1027
 summary: The gohugo is being called a content management system, because... it allows to manage a content. As someone who used wordpress for far too long I found that gohugo was missed my expectations a bit. One of areas where I found it shortcomings are redirects and aliases.

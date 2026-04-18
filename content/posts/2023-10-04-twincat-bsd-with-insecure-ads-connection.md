@@ -2,6 +2,9 @@
 author: splatch
 category:
   - automation
+cover:
+  alt: Industrial machinery in a large factory setting
+  image: https://images.unsplash.com/photo-1764835994645-3faa2c40f708?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=80&w=1600
 date: "2023-10-04T11:43:56+00:00"
 guid: http://dywicki.pl/?p=1034
 summary: The TwinCAT is automation software - both runtime and engineering environment from Beckhoff Automation. Since its early days it embedded "win", which was a shortcut from windows. Today I've finally got a TwinCAT/BSD working within VM and had to enable old fashion ADS connection to integration developed within [Apache PLC4X](https://plc4x.apache.org) library and embedded in [ConnectorIO Agent](https://connectorio.com/industrial-and-building-automation-monitoring-agent/) software.

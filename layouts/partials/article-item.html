@@ -1,0 +1,57 @@
+{{ $article := . }}
+{{ $link := $article.Permalink }}
+{{ $external := false }}
+{{ if eq $article.Section "projects" }}
+  {{ with or $article.Params.externalUrl $article.Params.repo }}
+    {{ $link = . }}
+    {{ $external = true }}
+  {{ end }}
+{{ end }}
+<article class="flex flex-col rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-md dark:hover:shadow-gray-800 transition-shadow bg-white dark:bg-gray-800/50">
+  {{- if $article.Params.cover.image }}
+  <div class="aspect-video overflow-hidden bg-gray-100 dark:bg-gray-800">
+    <img src="{{ $article.Params.cover.image | absURL }}"
+         alt="{{ $article.Params.cover.alt | default $article.Title }}"
+         class="w-full h-full object-cover"
+         loading="lazy"
+         decoding="async">
+  </div>
+  {{- else }}
+  <div class="aspect-video bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 flex items-center justify-center">
+    <svg class="w-10 h-10 text-blue-300 dark:text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+    </svg>
+  </div>
+  {{- end }}
+
+  <div class="p-4 flex flex-col flex-1 gap-2">
+    {{- if ne $article.Section "projects" }}
+    <time class="text-xs text-gray-500 dark:text-gray-400" datetime="{{ $article.Date.Format "2006-01-02" }}">
+      {{ $article.Date.Format "2 Jan 2006" }}
+    </time>
+    {{- end }}
+
+    <h3 class="font-semibold text-gray-900 dark:text-white leading-snug">
+      <a href="{{ $link }}"
+         {{ if $external }}target="_blank" rel="noopener noreferrer"{{ end }}
+         class="hover:text-blue-700 dark:hover:text-blue-400 transition-colors inline-flex items-start gap-1 group">
+        <span>{{ $article.Title }}</span>
+        <svg class="w-4 h-4 flex-shrink-0 mt-0.5 opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0 transition-all duration-150" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      </a>
+    </h3>
+
+    {{- with $article.Params.summary }}
+    <p class="text-sm text-gray-600 dark:text-gray-400 flex-1 line-clamp-3">{{ . }}</p>
+    {{- end }}
+
+    {{- if $article.Params.tag }}
+    <div class="flex flex-wrap gap-1 mt-1">
+      {{- range first 3 $article.Params.tag }}
+      {{ partial "badge.html" . }}
+      {{- end }}
+    </div>
+    {{- end }}
+  </div>
+</article>

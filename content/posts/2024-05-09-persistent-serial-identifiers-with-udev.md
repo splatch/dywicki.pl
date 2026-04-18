@@ -2,6 +2,9 @@
 author: splatch
 category:
   - software
+cover:
+  alt: Orange USB cables
+  image: https://images.unsplash.com/photo-1572721546624-05bf65ad7679?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=80&w=1600
 date: "2024-05-09T09:33:41+00:00"
 guid: http://dywicki.pl/?p=1044
 summary: It is not a secret that Linux can juggle USB serial ports between restarts. This is something which doesn't happen on linux, but if you ever looked at internet forums on how to fix issue, you for sure found advice to use custom udev rules.

@@ -1,31 +1,24 @@
 baseURL: https://dywicki.pl
 languageCode: en-US
-title: Middleware Warez
-theme: PaperMod
+title: Łukasz Dywicki
 taxonomies:
-  category: category
   tag: tag
 
 params:
-  description: Do more, pay less | Rób więcej, płacąc mniej
-  defaultTheme: auto
-  disableThemeToggle: false
-  showShareButtons: true
-  showReadingTime: true
-  showToc: false
-  showBreadCrumbs: true
-  showCodeCopyButtons: true
-  ShowPostNavLinks: true
-  comments: true
-  hideFooter: true
-  assets:
-    favicon: /favicon.ico
-    disableHLJS: true
+  description: Hello, I'm Łukasz; software developer by hart, open source contributor and Apache Software Foundation middleware specialist.
+  comments: false
+  social:
+    github: splatch           # your GitHub username
+    linkedin: lukasz-dywicki  # your LinkedIn handle
 
 markup:
   goldmark:
     renderer:
       unsafe: true
+  highlight:
+    noClasses: true
+    style: monokai
+
 outputs:
   home:
     - HTML
@@ -38,16 +31,21 @@ outputFormats:
 
 menu:
   main:
-    - name: Search
-      url: search/
-      weight: 10
-    - name: Categories
-      url: category/
-      weight: 5
+    - name: Posts
+      url: /posts/
+      weight: 20
     - name: Tags
-      url: tag/
-      weight: 5
+      url: /tag/
+      weight: 30
+    - name: Projects
+      url: /projects/
+      weight: 40
+    - name: Talks
+      url: /talks/
+      weight: 50
     - name: About me
-      url: /about-me
-    - name: O mnie
-      url: /o-mnie
+      url: /about-me/
+      weight: 60
+    - name: Search
+      url: /search/
+      weight: 100

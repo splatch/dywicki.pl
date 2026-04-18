@@ -1,0 +1,131 @@
+{
+  "projects": [
+    {
+      "title": "Apache PLC4X",
+      "slug": "apache-plc4x",
+      "date": "2025-04-18",
+      "draft": false,
+      "summary": "PLC4X, the Industrial IoT adapter.",
+      "description": "Project to which I contributed CAN transport layer, CANopen protocol and OPC UA protocol improvement.",
+      "url": "https://plc4x.apache.org",
+      "repo": "https://github.com/apache/plc4x",
+      "status": "active",
+      "tags": [
+        "java",
+        "automation",
+        "industrial-iot",
+        "plc",
+        "apache"
+      ],
+      "cover": {
+        "image": "https://plc4x.apache.org/images/apache_plc4x_logo.png",
+        "alt": "Apache PLC4X logo"
+      }
+    },
+    {
+      "title": "Apache Karaf",
+      "slug": "apache-karaf",
+      "date": "2025-04-18",
+      "draft": false,
+      "summary": "Apache Karaf modular runtime.",
+      "description": "A project page for contributions around Apache Karaf and OSGi-based runtime work.",
+      "url": "https://karaf.apache.org",
+      "repo": "https://github.com/apache/karaf",
+      "status": "active",
+      "tags": [
+        "java",
+        "osgi",
+        "karaf",
+        "middleware",
+        "apache"
+      ],
+      "cover": {
+        "image": "https://karaf.apache.org/images/karaf-logo-new.png",
+        "alt": "Apache Karaf logo"
+      }
+    },
+    {
+      "title": "openHAB",
+      "slug": "openhab",
+      "date": "2025-04-18",
+      "draft": false,
+      "summary": "openHAB project.",
+      "description": "Open Automation Home Automation Bus",
+      "url": "https://openhab.org",
+      "repo": "https://github.com/openhab",
+      "status": "active",
+      "tags": [
+        "openhab",
+        "build",
+        "bom",
+        "java",
+        "tooling"
+      ],
+      "cover": {
+        "image": "https://www.openhab.org/openhab-logo.svg",
+        "alt": "openHAB logo"
+      }
+    },
+    {
+      "title": "thingfour",
+      "slug": "thingfour",
+      "date": "2025-04-18",
+      "draft": false,
+      "summary": "An extra set of extensions targetting openHAB project and other openHAB-compatible deployments.",
+      "description": "A project page for additional openHAB-oriented extensions and compatible integrations.",
+      "repo": "https://github.com/thingfour/thingfour",
+      "status": "active",
+      "tags": [
+        "java",
+        "openhab",
+        "extensions",
+        "automation"
+      ],
+      "cover": {
+        "image": "https://avatars.githubusercontent.com/u/131760895?s=200&v=4",
+        "alt": "Thing4 logo"
+      }
+    },
+    {
+      "title": "ConnectorIO Add-ons",
+      "slug": "connectorio-addons",
+      "date": "2025-04-18",
+      "draft": false,
+      "summary": "Dedicated repository for openHAB software extensions maintained by ConnectorIO.",
+      "description": "A project page for the ConnectorIO-maintained openHAB extension set.",
+      "url": "https://connectorio.com",
+      "repo": "https://github.com/ConnectorIO/connectorio-addons",
+      "status": "active",
+      "tags": [
+        "java",
+        "openhab",
+        "automation",
+        "opensource"
+      ],
+      "cover": {
+        "image": "https://connectorio.com/images/logo/connectoriologold.png",
+        "alt": "ConnectorIO Logo"
+      }
+    },
+    {
+      "title": "bacnet4j-wrapper",
+      "slug": "bacnet4j-wrapper",
+      "date": "2025-04-18",
+      "draft": false,
+      "summary": "Simple facade for bacnet4j api.",
+      "description": "A wrapper project providing a simpler facade over the BACnet4J API.",
+      "repo": "https://github.com/Code-House/bacnet4j-wrapper",
+      "status": "active",
+      "tags": [
+        "java",
+        "bacnet",
+        "building-automation",
+        "wrapper"
+      ],
+      "cover": {
+        "image": "https://images.unsplash.com/photo-1698479603408-1a66a6d9e80f?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=kettenreaktion-l_Vn4HlFQVw-unsplash.jpg&w=640",
+        "alt": "A network switch with ethernet cables connected"
+      }
+    }
+  ]
+}
