@@ -3,8 +3,8 @@ author: splatch
 category:
   - osgi
 cover:
-  alt: Rack of servers in a server room
-  image: https://images.unsplash.com/photo-1695668548342-c0c1ad479aee?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=80&w=1600
+  alt: Apache Felix Fileinstall + Webconsole
+  image: /wp-content/uploads/2024/02/apache-felix-console.png
 date: "2024-02-20T00:13:27+00:00"
 guid: http://dywicki.pl/?p=1040
 summary: The Felix Fileinstall and Config Admin are two essential components of Apache Karaf runtime. I wrote about issues with array/list handling already twice. In 2015 and 2022. While earlier post was about syntax, later was about troubles with parsing of stored entries. Turns out, I've found a reason.
