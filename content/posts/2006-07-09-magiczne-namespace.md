@@ -13,7 +13,8 @@ url: /2006/07/09/magiczne-namespace/
 I oto się stało. Pierwszy raz użyłem przestrzeni nazw w PHP! Nie do wiary? A jednak. Nie było jakichkolwiek problemów z samą instalacją, ponieważ do pobrania jest paczka (pod Win ;)), która zachowuje się jak wszystkie inne pobrane z [php.net](http://php.net). Przykłady podane na necie działają, więc nie pozostaje nic innego jak zabrać się za używanie przestrzeni nazw. :)
 
 Oto listingi, które działają:
-\[php\]< ?php
+```php
+<?php
 
 import class a:::AFactory;
 import class a:::A;
@@ -33,19 +34,21 @@ AFactory::create();
 // fails with 'Fatal error: Cannot use class 'a:::A' outside of its namespace, as it is private'
 // new A;
 
-?>\[/php\]
+?>
+```
 
 Oraz:
-\[php\]< ?php
+```php
+<?php
 
 import namespace a;
 
-function \_\_autoload($classname) {
-foreach (get\_imported\_namespaces() as $ns) {
-$filename = str\_replace( ':::', '/', $ns ) . '/' . $classname . '.php';
-if (file\_exists($filename)) {
-require\_once($filename); // will require a/A.php
-autoload\_import\_class($classname, $ns); // will import class a:::A
+function __autoload($classname) {
+foreach (get_imported_namespaces() as $ns) {
+$filename = str_replace( ':::', '/', $ns ) . '/' . $classname . '.php';
+if (file_exists($filename)) {
+require_once($filename); // will require a/A.php
+autoload_import_class($classname, $ns); // will import class a:::A
 }
 }
 }
@@ -54,12 +57,13 @@ new A;
 
 ?>
 // file a/A.php:
-< ?php
+<?php
 
 namespace a {
 class A {}
 }
 
-?>\[/php\]
+?>
+```
 
 ## [Więcej informacji http://phpnamespaces.org/](http://phpnamespaces.org/)

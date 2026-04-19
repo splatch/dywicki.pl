@@ -14,6 +14,8 @@ Problem rozwiązałem przy użyciu 4 funkcji, w tym 3 funkcji wbudowanych w PHP.
 
 Linia, która pobiera określone klucze:
 
-\[php\]< ?php
-array\_uintersect\_uassoc($bigArray, array\_flip($keysArray), 'alwaysReturnZero', 'strcasecmp');
-?>\[/php\]
+```php
+<?php
+array_uintersect_uassoc($bigArray, array_flip($keysArray), 'alwaysReturnZero', 'strcasecmp');
+?>
+```

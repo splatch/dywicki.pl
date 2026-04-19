@@ -16,13 +16,15 @@ Dzisiejszego dnia postanowiłem poświęcić parę minut na bliższe spotkanie z
 
 Dlaczego moje uprzedzenie do ZF nie zmalało a tylko wzrosło? Dlatego, że to co w sumie zobaczyłem odbiega od znanego mi (z innych frameworków) MVC. Może potraktuję Was tutaj odrobiną kodu:
 
-\[php\]< ?php
+```php
+<?php
 
-$view = new Zend\_View();
+$view = new Zend_View();
 $view->setScriptPath('./views/');
 $view->a = 'asdf';
 echo $view->render('example.php');
-?>\[/php\]
+?>
+```
 
 Taki oto kawałek kodu jesteśmy smuszeni umieścić w kodzie akcji by uruchomić widok. Gdzie jest wygoda, automatyczne uruchamianie widoku? Nie wspomnę już o tym, że w ten sposób Zend znacząco ogranicza możliwości zmiany warstwy obsługującej widok.
 

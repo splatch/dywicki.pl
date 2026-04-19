@@ -9,8 +9,10 @@ url: /2006/07/05/zmiana-kluczy-na-male-litery/
 
 ---
 Bez żadnej pętli. :) Czy ktoś zna krótszy zapis nie korzystający z zewnętrznych funkcji?
-\[php\]< ?php
+```php
+<?php
 
-$target = array\_combine(array\_map('strtolower', array\_keys($target)), array\_values($target));
+$target = array_combine(array_map('strtolower', array_keys($target)), array_values($target));
 
-?>\[/php\]
+?>
+```

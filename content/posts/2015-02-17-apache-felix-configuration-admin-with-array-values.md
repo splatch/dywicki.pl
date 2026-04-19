@@ -19,9 +19,9 @@ While digging into Felix CM code I have found that it is able to create scalar v
 
 Config file name which is source of properties must be named .config – otherwise array will not be created.
 Property must be written as follows:
-\[source\]
+```properties
 property=\["value 1", "value 2", "value x"\]
-\[/source\]
+```
 
 Internally config admin is also storing information about value type. By default created values and collections will consist elements of type String. If you wish to change type of collection following prefixes are allowed:
 
