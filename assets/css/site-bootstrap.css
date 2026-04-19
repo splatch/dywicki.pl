@@ -284,6 +284,7 @@
 
 .hero-title {
   max-width: 14ch;
+  color: #111827;
 }
 
 .hero-copy {
@@ -305,6 +306,10 @@
 
 .dark .hero-social-link:hover {
   color: #60a5fa;
+}
+
+.dark .hero-title {
+  color: #f8fafc;
 }
 
 .hero-image-wrap {

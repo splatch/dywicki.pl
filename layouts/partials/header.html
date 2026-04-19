@@ -79,10 +79,12 @@
 
 // Dark mode toggle
 (function () {
-  document.getElementById('theme-toggle').addEventListener('click', function () {
-    const html = document.documentElement;
-    const isDark = html.classList.toggle('dark');
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  document.querySelectorAll('.js-theme-toggle').forEach(function (button) {
+    button.addEventListener('click', function () {
+      const html = document.documentElement;
+      const isDark = html.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
   });
 })();
 </script>
