@@ -1,8 +1,8 @@
 {{ define "main" }}
-<div class="container mx-auto px-4">
+<div class="container py-4 py-lg-5">
 
   <!-- Hero Section -->
-  <section class="home-hero py-5">
+  <section class="home-hero">
     <div class="row gx-5 gy-4 align-items-center">
       <div class="col-12 col-xl-8">
         <div class="text-center text-xl-start">
@@ -12,9 +12,7 @@
               <span class="intro-badge-core position-relative"></span>
             </span>
             Dzień dobry!
-            <svg class="ms-2" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
+            {{ partial "asset-icon.html" (dict "name" "arrow-right" "class" "ms-2" "attrs" `width="16" height="16" aria-hidden="true"`) }}
           </div>
 
           <h1 class="display-4 fw-semibold lh-sm my-4 text-body-emphasis hero-title">
@@ -35,16 +33,12 @@
           <div class="d-flex align-items-center justify-content-center justify-content-xl-start gap-3 hero-social">
             {{- with .Site.Params.social.github }}
             <a class="hero-social-link" href="https://github.com/{{ . }}" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.009-.866-.014-1.699-2.782.605-3.369-1.344-3.369-1.344-.454-1.157-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.071 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.091-.647.349-1.088.635-1.338-2.221-.253-4.555-1.113-4.555-4.951 0-1.093.389-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.027A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.297 2.748-1.027 2.748-1.027.546 1.378.202 2.397.1 2.65.64.7 1.028 1.595 1.028 2.688 0 3.848-2.338 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.339-.012 2.419-.012 2.748 0 .268.18.58.688.482A10.019 10.019 0 0 0 22 12.017C22 6.484 17.523 2 12 2z"/>
-              </svg>
+              {{ partial "asset-icon.html" (dict "name" "github" "attrs" `width="20" height="20" aria-hidden="true"`) }}
             </a>
             {{- end }}
             {{- with .Site.Params.social.linkedin }}
             <a class="hero-social-link" href="https://www.linkedin.com/in/{{ . }}/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M6.94 8.5H3.56V20h3.38V8.5ZM5.25 3A1.97 1.97 0 0 0 3.25 5c0 1.09.88 1.97 1.96 1.97h.02A1.97 1.97 0 1 0 5.25 3ZM20.75 13.02c0-3.53-1.88-5.17-4.39-5.17-2.02 0-2.92 1.11-3.43 1.9V8.5H9.56c.04.83 0 11.5 0 11.5h3.37v-6.42c0-.34.03-.68.13-.92.27-.68.88-1.38 1.9-1.38 1.34 0 1.88 1.03 1.88 2.54V20h3.37v-6.98Z"/>
-              </svg>
+              {{ partial "asset-icon.html" (dict "name" "linkedin" "attrs" `width="20" height="20" aria-hidden="true"`) }}
             </a>
             {{- end }}
           </div>
@@ -66,16 +60,18 @@
   </section>
 
   <!-- Latest Posts -->
-  <section class="py-12 border-t border-gray-200 dark:border-gray-700">
-    <div class="flex items-center justify-between mb-8">
-      <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Latest Posts</h2>
-      <a href="/posts/" class="text-sm font-medium text-blue-700 dark:text-blue-400 hover:underline">
+  <section class="section-block">
+    <div class="section-heading">
+      <h2 class="h2 mb-0">Latest Posts</h2>
+      <a href="/posts/" class="section-link">
         All posts →
       </a>
     </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
       {{- range first 3 (where (where .Site.RegularPages "Section" "posts") "Draft" false) }}
-      {{ partial "article-item.html" . }}
+      <div class="col">
+        {{ partial "article-item.html" . }}
+      </div>
       {{- end }}
     </div>
   </section>
@@ -83,53 +79,50 @@
   <!-- Latest Talks -->
   {{- $talks := sort site.Data.talks.talks "date" "desc" }}
   {{- if $talks }}
-  <section class="py-12 border-t border-gray-200 dark:border-gray-700">
-    <div class="flex items-center justify-between mb-8">
-      <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Latest Talks</h2>
-      <a href="/talks/" class="text-sm font-medium text-blue-700 dark:text-blue-400 hover:underline">
+  <section class="section-block">
+    <div class="section-heading">
+      <h2 class="h2 mb-0">Latest Talks</h2>
+      <a href="/talks/" class="section-link">
         All talks →
       </a>
     </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
       {{- range first 3 $talks }}
       {{- $talkLink := or .video_url .slides_url .event_url }}
-      <article class="flex flex-col rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-md dark:hover:shadow-gray-800 transition-shadow bg-white dark:bg-gray-800/50">
+      <div class="col">
+      <article class="card content-card h-100">
         {{- if .cover.image }}
-        <div class="aspect-video overflow-hidden bg-gray-100 dark:bg-gray-800 flex items-center justify-center p-4">
+        <div class="content-card-cover">
           <img src="{{ .cover.image | absURL }}"
                alt="{{ .cover.alt | default .title }}"
-               class="w-full h-full object-cover object-center rounded-lg"
+               class="content-card-image"
                loading="lazy"
                decoding="async">
         </div>
         {{- else }}
-        <div class="aspect-video bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 flex items-center justify-center">
-          <svg class="w-10 h-10 text-blue-300 dark:text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5 21 7.5v9l-5.25-3M4.5 6.75h8.25A2.25 2.25 0 0 1 15 9v6a2.25 2.25 0 0 1-2.25 2.25H4.5A2.25 2.25 0 0 1 2.25 15V9A2.25 2.25 0 0 1 4.5 6.75Z" />
-          </svg>
+        <div class="content-card-cover content-card-cover-placeholder">
+          {{ partial "asset-icon.html" (dict "name" "talk" "class" "content-card-placeholder-icon" "attrs" `aria-hidden="true"`) }}
         </div>
         {{- end }}
 
-        <div class="p-4 flex flex-col flex-1 gap-2">
-          <div class="flex flex-wrap items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
+        <div class="card-body d-flex flex-column gap-2">
+          <div class="content-meta">
             {{- with .date }}
             <time datetime="{{ . }}">{{ time.AsTime . | time.Format "2 Jan 2006" }}</time>
             {{- end }}
             {{- with .event }}
-            <span>·</span>
+            <span class="content-meta-separator">·</span>
             <span>{{ . }}</span>
             {{- end }}
           </div>
 
-          <h3 class="font-semibold text-gray-900 dark:text-white leading-snug">
+          <h3 class="h5 mb-0">
             {{- if $talkLink }}
             <a href="{{ if and .slides_url (eq $talkLink .slides_url) }}{{ replace $talkLink " " "%20" }}{{ else }}{{ $talkLink }}{{ end }}"
                target="_blank" rel="noopener noreferrer"
-               class="hover:text-blue-700 dark:hover:text-blue-400 transition-colors inline-flex items-start gap-1 group">
+               class="content-link">
               <span>{{ .title }}</span>
-              <svg class="w-4 h-4 flex-shrink-0 mt-0.5 opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0 transition-all duration-150" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H18m0 0v4.5M18 6l-7.5 7.5M6 7.5v10.5h10.5" />
-              </svg>
+              {{ partial "asset-icon.html" (dict "name" "external-link" "class" "content-link-icon" "attrs" `aria-hidden="true"`) }}
             </a>
             {{- else }}
             <span>{{ .title }}</span>
@@ -137,10 +130,11 @@
           </h3>
 
           {{- with .summary }}
-          <p class="text-sm text-gray-600 dark:text-gray-400 flex-1 line-clamp-3">{{ . }}</p>
+          <p class="card-text text-body-secondary flex-grow-1">{{ . }}</p>
           {{- end }}
         </div>
       </article>
+      </div>
       {{- end }}
     </div>
   </section>
@@ -149,42 +143,39 @@
   <!-- Projects -->
   {{- $projects := site.Data.projects.projects }}
   {{- if $projects }}
-  <section id="getintouch" class="py-12 border-t border-gray-200 dark:border-gray-700">
-    <div class="flex items-center justify-between mb-8">
-      <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Projects</h2>
-      <a href="/projects/" class="text-sm font-medium text-blue-700 dark:text-blue-400 hover:underline">
+  <section class="section-block">
+    <div class="section-heading">
+      <h2 class="h2 mb-0">Projects</h2>
+      <a href="/projects/" class="section-link">
         All projects →
       </a>
     </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
       {{- range first 3 $projects }}
       {{- $link := or .url .repo }}
-      <article class="flex flex-col rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-md dark:hover:shadow-gray-800 transition-shadow bg-white dark:bg-gray-800/50">
+      <div class="col">
+      <article class="card content-card h-100">
         {{- if .cover.image }}
-        <div class="aspect-video overflow-hidden bg-gray-100 dark:bg-gray-800 flex items-center justify-center p-4">
+        <div class="content-card-cover">
           <img src="{{ .cover.image | absURL }}"
                alt="{{ .cover.alt | default .title }}"
-               class="w-full h-full object-cover object-center rounded-lg"
+               class="content-card-image"
                loading="lazy"
                decoding="async">
         </div>
         {{- else }}
-        <div class="aspect-video bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 flex items-center justify-center">
-          <svg class="w-10 h-10 text-blue-300 dark:text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-          </svg>
+        <div class="content-card-cover content-card-cover-placeholder">
+          {{ partial "asset-icon.html" (dict "name" "project" "class" "content-card-placeholder-icon" "attrs" `aria-hidden="true"`) }}
         </div>
         {{- end }}
 
-        <div class="p-4 flex flex-col flex-1 gap-2">
-          <h3 class="font-semibold text-gray-900 dark:text-white leading-snug">
+        <div class="card-body d-flex flex-column gap-2">
+          <h3 class="h5 mb-0">
             {{- if $link }}
             <a href="{{ $link }}" target="_blank" rel="noopener noreferrer"
-               class="hover:text-blue-700 dark:hover:text-blue-400 transition-colors inline-flex items-start gap-1 group">
+               class="content-link">
               <span>{{ .title }}</span>
-              <svg class="w-4 h-4 flex-shrink-0 mt-0.5 opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0 transition-all duration-150" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H18m0 0v4.5M18 6l-7.5 7.5M6 7.5v10.5h10.5" />
-              </svg>
+              {{ partial "asset-icon.html" (dict "name" "external-link" "class" "content-link-icon" "attrs" `aria-hidden="true"`) }}
             </a>
             {{- else }}
             <span>{{ .title }}</span>
@@ -192,46 +183,45 @@
           </h3>
 
           {{- with .summary }}
-          <p class="text-sm text-gray-600 dark:text-gray-400 flex-1 line-clamp-3">{{ . }}</p>
+          <p class="card-text text-body-secondary flex-grow-1">{{ . }}</p>
           {{- end }}
         </div>
       </article>
+      </div>
       {{- end }}
     </div>
   </section>
   {{- end }}
 
   <!-- Contact Form -->
-  <section class="py-12 border-t border-gray-200 dark:border-gray-700">
-    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Get in touch</h2>
-    <p class="text-gray-600 dark:text-gray-400 mb-8">Questions, ideas, or just want to say hello — feel free to reach out.</p>
-    <form id="contact-form" class="max-w-lg space-y-4">
-      <div>
-        <label for="contact-name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Name</label>
+  <section id="getintouch" class="section-block">
+    <h2 class="h2 mb-2">Get in touch</h2>
+    <p class="text-body-secondary mb-4">Questions, ideas, or just want to say hello — feel free to reach out.</p>
+    <form id="contact-form" class="contact-form">
+      <div class="mb-3">
+        <label for="contact-name" class="form-label">Name</label>
         <input type="text" id="contact-name" name="name" required autocomplete="name"
-               class="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors">
+               class="form-control">
       </div>
-      <div>
-        <label for="contact-email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
+      <div class="mb-3">
+        <label for="contact-email" class="form-label">Email</label>
         <input type="email" id="contact-email" name="email" required autocomplete="email"
-               class="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors">
+               class="form-control">
       </div>
-      <div>
-        <label for="contact-message" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Message</label>
+      <div class="mb-3">
+        <label for="contact-message" class="form-label">Message</label>
         <textarea id="contact-message" name="message" rows="4" required
-                  class="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors resize-none"></textarea>
+                  class="form-control"></textarea>
       </div>
       <button type="submit"
-              class="inline-flex items-center gap-2 bg-blue-700 hover:bg-blue-800 disabled:opacity-60 text-white font-semibold px-5 py-2.5 rounded-lg transition-colors">
+              class="btn btn-primary d-inline-flex align-items-center gap-2">
         Send message
-        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-        </svg>
+        {{ partial "asset-icon.html" (dict "name" "send" "class" "w-4 h-4" "attrs" `aria-hidden="true"`) }}
       </button>
-      <p id="contact-success" class="hidden text-green-600 dark:text-green-400 font-medium text-sm">
+      <p id="contact-success" class="d-none text-success fw-medium small mt-3 mb-0">
         Thanks! Your message has been sent.
       </p>
-      <p id="contact-error" class="hidden text-red-600 dark:text-red-400 text-sm">
+      <p id="contact-error" class="d-none text-danger small mt-3 mb-0">
         Something went wrong. Please try again or email directly.
       </p>
     </form>
@@ -248,8 +238,8 @@ document.getElementById('contact-form').addEventListener('submit', async functio
   const error = document.getElementById('contact-error');
 
   btn.disabled = true;
-  success.classList.add('hidden');
-  error.classList.add('hidden');
+  success.classList.add('d-none');
+  error.classList.add('d-none');
 
   try {
     const res = await fetch('https://getform.io/f/PLACEHOLDER', {
@@ -258,12 +248,12 @@ document.getElementById('contact-form').addEventListener('submit', async functio
     });
     if (res.ok) {
       form.reset();
-      success.classList.remove('hidden');
+      success.classList.remove('d-none');
     } else {
-      error.classList.remove('hidden');
+      error.classList.remove('d-none');
     }
   } catch (err) {
-    error.classList.remove('hidden');
+    error.classList.remove('d-none');
   } finally {
     btn.disabled = false;
   }

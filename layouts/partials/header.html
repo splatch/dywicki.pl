@@ -1,14 +1,15 @@
-<header class="sticky top-0 z-50 bg-white dark:bg-gray-900 shadow-sm dark:shadow-gray-800 border-b border-gray-100 dark:border-gray-800">
-  <div class="container mx-auto px-4 py-3 flex items-center justify-between">
-    <a href="/" class="text-lg font-bold text-gray-900 dark:text-white hover:text-blue-700 dark:hover:text-blue-400 transition-colors">
+<header class="site-header sticky-top">
+  <div class="container">
+    <div class="site-header-bar">
+    <a href="/" class="site-header-brand">
       {{ .Site.Title }}
     </a>
 
     <!-- Desktop nav -->
-    <nav class="hidden md:flex items-center gap-1">
+    <nav class="site-header-nav d-none d-md-flex" aria-label="Main navigation">
       {{ range .Site.Menus.main }}
       <a href="{{ .URL }}"
-         class="px-3 py-1.5 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-blue-700 dark:hover:text-blue-400 transition-colors{{ if eq $.RelPermalink .URL }} text-blue-700 dark:text-blue-400 bg-gray-100 dark:bg-gray-800{{ end }}"
+         class="site-header-link{{ if eq $.RelPermalink .URL }} is-active{{ end }}"
          {{ if eq $.RelPermalink .URL }}aria-current="page"{{ end }}>
         {{ .Name }}
       </a>
@@ -17,31 +18,28 @@
     </nav>
 
     <!-- Mobile: dark mode toggle + hamburger -->
-    <div class="flex items-center gap-1 md:hidden">
+    <div class="d-flex align-items-center gap-2 d-md-none">
       {{- partial "dark-mode-toggle.html" . }}
-      <button id="menu-toggle" class="p-2 rounded-md text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" aria-label="Open menu" aria-expanded="false">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-        </svg>
+      <button id="menu-toggle" class="site-icon-button" aria-label="Open menu" aria-expanded="false" type="button">
+        {{ partial "asset-icon.html" (dict "name" "menu" "class" "site-icon" "attrs" `aria-hidden="true"`) }}
       </button>
+    </div>
     </div>
   </div>
 </header>
 
 <!-- Mobile drawer -->
-<div id="mobile-menu" class="fixed inset-y-0 right-0 z-50 w-64 bg-white dark:bg-gray-900 shadow-xl transform translate-x-full transition-transform duration-200 ease-in-out md:hidden" aria-hidden="true">
-  <div class="flex items-center justify-between p-4 border-b border-gray-100 dark:border-gray-800">
-    <span class="text-sm font-semibold text-gray-900 dark:text-white">Menu</span>
-    <button id="menu-close" class="p-1.5 rounded-md text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" aria-label="Close menu">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-      </svg>
+<div id="mobile-menu" class="site-mobile-menu d-md-none" aria-hidden="true">
+  <div class="site-mobile-menu-header">
+    <span class="site-mobile-menu-title">Menu</span>
+    <button id="menu-close" class="site-icon-button" aria-label="Close menu" type="button">
+      {{ partial "asset-icon.html" (dict "name" "close" "class" "site-icon" "attrs" `aria-hidden="true"`) }}
     </button>
   </div>
-  <nav class="flex flex-col gap-1 p-3">
+  <nav class="site-mobile-menu-nav" aria-label="Mobile navigation">
     {{ range .Site.Menus.main }}
     <a href="{{ .URL }}"
-       class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-blue-700 dark:hover:text-blue-400 transition-colors{{ if eq $.RelPermalink .URL }} text-blue-700 dark:text-blue-400 bg-gray-50 dark:bg-gray-800{{ end }}"
+       class="site-mobile-menu-link{{ if eq $.RelPermalink .URL }} is-active{{ end }}"
        {{ if eq $.RelPermalink .URL }}aria-current="page"{{ end }}>
       {{ .Name }}
     </a>
@@ -49,7 +47,7 @@
   </nav>
 </div>
 <!-- Backdrop -->
-<div id="menu-backdrop" class="fixed inset-0 z-40 bg-black/50 hidden md:hidden"></div>
+<div id="menu-backdrop" class="site-menu-backdrop d-none d-md-none"></div>
 
 <script>
 (function () {
@@ -59,16 +57,16 @@
   const backdrop = document.getElementById('menu-backdrop');
 
   function openMenu() {
-    menu.classList.remove('translate-x-full');
+    menu.classList.add('is-open');
     menu.setAttribute('aria-hidden', 'false');
-    backdrop.classList.remove('hidden');
+    backdrop.classList.remove('d-none');
     toggle.setAttribute('aria-expanded', 'true');
     document.body.style.overflow = 'hidden';
   }
   function closeMenu() {
-    menu.classList.add('translate-x-full');
+    menu.classList.remove('is-open');
     menu.setAttribute('aria-hidden', 'true');
-    backdrop.classList.add('hidden');
+    backdrop.classList.add('d-none');
     toggle.setAttribute('aria-expanded', 'false');
     document.body.style.overflow = '';
   }

@@ -1,46 +1,43 @@
 {{ define "main" }}
-<div class="container mx-auto px-4 py-10">
+<div class="container py-4 py-lg-5">
 
-  <header class="mb-10">
-    <h1 class="text-3xl font-bold text-gray-900 dark:text-white capitalize">
+  <header class="mb-5">
+    <h1 class="display-6 fw-semibold text-capitalize mb-0">
       {{ .Title }}
     </h1>
     {{- with .Description }}
-    <p class="mt-2 text-gray-600 dark:text-gray-400">{{ . }}</p>
+    <p class="mt-2 text-body-secondary">{{ . }}</p>
     {{- end }}
   </header>
 
   {{- $projects := site.Data.projects.projects }}
   {{- if $projects }}
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+  <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
     {{- range $projects }}
     {{- $link := or .url .repo }}
-    <article class="flex flex-col rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-md dark:hover:shadow-gray-800 transition-shadow bg-white dark:bg-gray-800/50">
+    <div class="col">
+    <article class="card content-card h-100">
       {{- if .cover.image }}
-      <div class="aspect-video overflow-hidden bg-gray-100 dark:bg-gray-800">
+      <div class="content-card-cover">
         <img src="{{ .cover.image | absURL }}"
              alt="{{ .cover.alt | default .title }}"
-             class="w-full h-full object-cover"
+             class="content-card-image"
              loading="lazy"
              decoding="async">
       </div>
       {{- else }}
-      <div class="aspect-video bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 flex items-center justify-center">
-        <svg class="w-10 h-10 text-blue-300 dark:text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-        </svg>
+      <div class="content-card-cover content-card-cover-placeholder">
+        {{ partial "asset-icon.html" (dict "name" "project" "class" "content-card-placeholder-icon" "attrs" `aria-hidden="true"`) }}
       </div>
       {{- end }}
 
-      <div class="p-4 flex flex-col flex-1 gap-2">
-        <h3 class="font-semibold text-gray-900 dark:text-white leading-snug">
+      <div class="card-body d-flex flex-column gap-2">
+        <h3 class="h5 mb-0">
           {{- if $link }}
           <a href="{{ $link }}" target="_blank" rel="noopener noreferrer"
-             class="hover:text-blue-700 dark:hover:text-blue-400 transition-colors inline-flex items-start gap-1 group">
+             class="content-link">
             <span>{{ .title }}</span>
-            <svg class="w-4 h-4 flex-shrink-0 mt-0.5 opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0 transition-all duration-150" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H18m0 0v4.5M18 6l-7.5 7.5M6 7.5v10.5h10.5" />
-            </svg>
+            {{ partial "asset-icon.html" (dict "name" "external-link" "class" "content-link-icon" "attrs" `aria-hidden="true"`) }}
           </a>
           {{- else }}
           <span>{{ .title }}</span>
@@ -48,11 +45,11 @@
         </h3>
 
         {{- with .summary }}
-        <p class="text-sm text-gray-600 dark:text-gray-400 flex-1 line-clamp-3">{{ . }}</p>
+        <p class="card-text text-body-secondary flex-grow-1">{{ . }}</p>
         {{- end }}
 
         {{- if .tags }}
-        <div class="flex flex-wrap gap-1 mt-1">
+        <div class="d-flex flex-wrap gap-2 mt-1">
           {{- range first 3 .tags }}
           {{ partial "badge.html" . }}
           {{- end }}
@@ -60,16 +57,16 @@
         {{- end }}
 
         {{- if or .url .repo }}
-        <div class="mt-3 flex flex-wrap gap-2">
+        <div class="mt-3 d-flex flex-wrap gap-2">
           {{- with .url }}
           <a href="{{ . }}" target="_blank" rel="noopener noreferrer"
-             class="px-3 py-1.5 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-blue-700 dark:hover:text-blue-400 transition-colors">
+             class="btn btn-outline-primary btn-sm">
             Project
           </a>
           {{- end }}
           {{- with .repo }}
           <a href="{{ . }}" target="_blank" rel="noopener noreferrer"
-             class="px-3 py-1.5 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-blue-700 dark:hover:text-blue-400 transition-colors">
+             class="btn btn-outline-secondary btn-sm">
             Repo
           </a>
           {{- end }}
@@ -77,10 +74,11 @@
         {{- end }}
       </div>
     </article>
+    </div>
     {{- end }}
   </div>
   {{- else }}
-  <p class="text-gray-500 dark:text-gray-400">No projects yet.</p>
+  <p class="text-body-secondary">No projects yet.</p>
   {{- end }}
 
 </div>

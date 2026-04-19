@@ -3,7 +3,7 @@
 <head>
   {{- partial "head.html" . }}
 </head>
-<body class="min-h-screen flex flex-col bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200">
+<body class="site-body">
   <script>
     // Apply saved or system theme before first paint to avoid flash
     (function () {
@@ -19,7 +19,7 @@
 
   {{- partial "header.html" . }}
 
-  <main class="flex-1">
+  <main class="site-main">
     {{- block "main" . }}{{- end }}
   </main>
 
